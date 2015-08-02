@@ -15,6 +15,7 @@
 		5252DB341B6D847600262619 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB321B6D847600262619 /* LaunchScreen.xib */; };
 		5252DB401B6D847600262619 /* UCD_Map_v2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */; };
 		5252DB4A1B6D84CD00262619 /* logo_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB491B6D84CD00262619 /* logo_background.png */; };
+		5252DB4D1B6EC80300262619 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB4C1B6EC80300262619 /* LocationsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 		5252DB3E1B6D847600262619 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UCD_Map_v2Tests.m; sourceTree = "<group>"; };
 		5252DB491B6D84CD00262619 /* logo_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_background.png; sourceTree = "<group>"; };
+		5252DB4B1B6EC80300262619 /* LocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsViewController.h; sourceTree = "<group>"; };
+		5252DB4C1B6EC80300262619 /* LocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,8 @@
 				5252DB281B6D847600262619 /* AppDelegate.m */,
 				5252DB2A1B6D847600262619 /* LaunchViewController.h */,
 				5252DB2B1B6D847600262619 /* LaunchViewController.m */,
+				5252DB4B1B6EC80300262619 /* LocationsViewController.h */,
+				5252DB4C1B6EC80300262619 /* LocationsViewController.m */,
 				5252DB2D1B6D847600262619 /* Main.storyboard */,
 				5252DB301B6D847600262619 /* Images.xcassets */,
 				5252DB491B6D84CD00262619 /* logo_background.png */,
@@ -226,6 +231,7 @@
 				5252DB2C1B6D847600262619 /* LaunchViewController.m in Sources */,
 				5252DB291B6D847600262619 /* AppDelegate.m in Sources */,
 				5252DB261B6D847600262619 /* main.m in Sources */,
+				5252DB4D1B6EC80300262619 /* LocationsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
