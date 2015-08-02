@@ -1,5 +1,5 @@
 //
-//  ViewController.m
+//  LaunchViewController.m
 //  UCD Map v2
 //
 //  Created by psytronx on 8/1/15.
