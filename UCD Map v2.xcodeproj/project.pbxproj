@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		5252DB261B6D847600262619 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB251B6D847600262619 /* main.m */; };
 		5252DB291B6D847600262619 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB281B6D847600262619 /* AppDelegate.m */; };
-		5252DB2C1B6D847600262619 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB2B1B6D847600262619 /* ViewController.m */; };
+		5252DB2C1B6D847600262619 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB2B1B6D847600262619 /* LaunchViewController.m */; };
 		5252DB2F1B6D847600262619 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB2D1B6D847600262619 /* Main.storyboard */; };
 		5252DB311B6D847600262619 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB301B6D847600262619 /* Images.xcassets */; };
 		5252DB341B6D847600262619 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB321B6D847600262619 /* LaunchScreen.xib */; };
 		5252DB401B6D847600262619 /* UCD_Map_v2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */; };
+		5252DB4A1B6D84CD00262619 /* logo_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB491B6D84CD00262619 /* logo_background.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +33,15 @@
 		5252DB251B6D847600262619 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5252DB271B6D847600262619 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5252DB281B6D847600262619 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		5252DB2A1B6D847600262619 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		5252DB2B1B6D847600262619 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		5252DB2A1B6D847600262619 /* LaunchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
+		5252DB2B1B6D847600262619 /* LaunchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
 		5252DB2E1B6D847600262619 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5252DB301B6D847600262619 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5252DB331B6D847600262619 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		5252DB391B6D847600262619 /* UCD Map v2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UCD Map v2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5252DB3E1B6D847600262619 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UCD_Map_v2Tests.m; sourceTree = "<group>"; };
+		5252DB491B6D84CD00262619 /* logo_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_background.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,10 +85,11 @@
 			children = (
 				5252DB271B6D847600262619 /* AppDelegate.h */,
 				5252DB281B6D847600262619 /* AppDelegate.m */,
-				5252DB2A1B6D847600262619 /* ViewController.h */,
-				5252DB2B1B6D847600262619 /* ViewController.m */,
+				5252DB2A1B6D847600262619 /* LaunchViewController.h */,
+				5252DB2B1B6D847600262619 /* LaunchViewController.m */,
 				5252DB2D1B6D847600262619 /* Main.storyboard */,
 				5252DB301B6D847600262619 /* Images.xcassets */,
+				5252DB491B6D84CD00262619 /* logo_background.png */,
 				5252DB321B6D847600262619 /* LaunchScreen.xib */,
 				5252DB231B6D847600262619 /* Supporting Files */,
 			);
@@ -201,6 +204,7 @@
 			files = (
 				5252DB2F1B6D847600262619 /* Main.storyboard in Resources */,
 				5252DB341B6D847600262619 /* LaunchScreen.xib in Resources */,
+				5252DB4A1B6D84CD00262619 /* logo_background.png in Resources */,
 				5252DB311B6D847600262619 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,7 +223,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5252DB2C1B6D847600262619 /* ViewController.m in Sources */,
+				5252DB2C1B6D847600262619 /* LaunchViewController.m in Sources */,
 				5252DB291B6D847600262619 /* AppDelegate.m in Sources */,
 				5252DB261B6D847600262619 /* main.m in Sources */,
 			);
