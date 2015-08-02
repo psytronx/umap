@@ -27,14 +27,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="UkJ-MI-BdK" secondAttribute="centerX" id="9cn-3Q-eYj"/>
                             <constraint firstAttribute="centerX" secondItem="UkJ-MI-BdK" secondAttribute="centerX" constant="-7.5" id="DVB-wH-nV7"/>
                             <constraint firstAttribute="centerY" secondItem="UkJ-MI-BdK" secondAttribute="centerY" id="Hqj-37-jzX"/>
                             <constraint firstAttribute="centerY" secondItem="4aY-NB-P0S" secondAttribute="centerY" id="NxB-or-7eC"/>
-                            <constraint firstItem="UkJ-MI-BdK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="cV1-Qk-Gda"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="UkJ-MI-BdK" secondAttribute="trailing" constant="10" id="jOV-3t-R5h"/>
+                            <constraint firstItem="UkJ-MI-BdK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="cV1-Qk-Gda"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="UkJ-MI-BdK" secondAttribute="trailing" id="jOV-3t-R5h"/>
                             <constraint firstAttribute="centerX" secondItem="UkJ-MI-BdK" secondAttribute="centerX" id="mxs-jp-6up"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="UkJ-MI-BdK" secondAttribute="bottom" constant="10" id="nYB-5u-e5e"/>
                             <constraint firstAttribute="centerX" secondItem="4aY-NB-P0S" secondAttribute="centerX" id="oZn-6y-V4O"/>
