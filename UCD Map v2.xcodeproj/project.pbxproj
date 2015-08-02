@@ -16,6 +16,10 @@
 		5252DB401B6D847600262619 /* UCD_Map_v2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */; };
 		5252DB4A1B6D84CD00262619 /* logo_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB491B6D84CD00262619 /* logo_background.png */; };
 		5252DB4D1B6EC80300262619 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB4C1B6EC80300262619 /* LocationsViewController.m */; };
+		5252DB511B6ED4ED00262619 /* UMPLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB501B6ED4ED00262619 /* UMPLocation.m */; };
+		5252DB541B6ED6EF00262619 /* UMPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB531B6ED6EF00262619 /* UMPDataSource.m */; };
+		5252DB571B6ED91200262619 /* UMPCampus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB561B6ED91200262619 /* UMPCampus.m */; };
+		5AA01ED06E25FD8DFB1564A3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFD3EE4182B0790C527F0CB /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +49,15 @@
 		5252DB491B6D84CD00262619 /* logo_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_background.png; sourceTree = "<group>"; };
 		5252DB4B1B6EC80300262619 /* LocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsViewController.h; sourceTree = "<group>"; };
 		5252DB4C1B6EC80300262619 /* LocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
+		5252DB4F1B6ED4ED00262619 /* UMPLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPLocation.h; sourceTree = "<group>"; };
+		5252DB501B6ED4ED00262619 /* UMPLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPLocation.m; sourceTree = "<group>"; };
+		5252DB521B6ED6EF00262619 /* UMPDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPDataSource.h; sourceTree = "<group>"; };
+		5252DB531B6ED6EF00262619 /* UMPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPDataSource.m; sourceTree = "<group>"; };
+		5252DB551B6ED91200262619 /* UMPCampus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPCampus.h; sourceTree = "<group>"; };
+		5252DB561B6ED91200262619 /* UMPCampus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPCampus.m; sourceTree = "<group>"; };
+		5AFD3EE4182B0790C527F0CB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C2D56993AC4595A0B4D090D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		B432C51F30BD74B7E9CA749E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AA01ED06E25FD8DFB1564A3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,12 +79,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		424F99EA0C943528483B2B51 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5AFD3EE4182B0790C527F0CB /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5252DB171B6D847600262619 = {
 			isa = PBXGroup;
 			children = (
 				5252DB221B6D847600262619 /* UCD Map v2 */,
 				5252DB3C1B6D847600262619 /* UCD Map v2Tests */,
 				5252DB211B6D847600262619 /* Products */,
+				697FE387DF3B2B85BBCF058E /* Pods */,
+				424F99EA0C943528483B2B51 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,6 +110,7 @@
 		5252DB221B6D847600262619 /* UCD Map v2 */ = {
 			isa = PBXGroup;
 			children = (
+				5252DB4E1B6ED4D400262619 /* Model */,
 				5252DB271B6D847600262619 /* AppDelegate.h */,
 				5252DB281B6D847600262619 /* AppDelegate.m */,
 				5252DB2A1B6D847600262619 /* LaunchViewController.h */,
@@ -127,6 +152,28 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		5252DB4E1B6ED4D400262619 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5252DB551B6ED91200262619 /* UMPCampus.h */,
+				5252DB561B6ED91200262619 /* UMPCampus.m */,
+				5252DB4F1B6ED4ED00262619 /* UMPLocation.h */,
+				5252DB501B6ED4ED00262619 /* UMPLocation.m */,
+				5252DB521B6ED6EF00262619 /* UMPDataSource.h */,
+				5252DB531B6ED6EF00262619 /* UMPDataSource.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		697FE387DF3B2B85BBCF058E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B432C51F30BD74B7E9CA749E /* Pods.debug.xcconfig */,
+				7C2D56993AC4595A0B4D090D /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,9 +181,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5252DB431B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map v2" */;
 			buildPhases = (
+				630EF06040C71ACA7B2382C6 /* Check Pods Manifest.lock */,
 				5252DB1C1B6D847600262619 /* Sources */,
 				5252DB1D1B6D847600262619 /* Frameworks */,
 				5252DB1E1B6D847600262619 /* Resources */,
+				0EB938F4DC217607B29926C9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -223,13 +272,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0EB938F4DC217607B29926C9 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		630EF06040C71ACA7B2382C6 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5252DB1C1B6D847600262619 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				5252DB2C1B6D847600262619 /* LaunchViewController.m in Sources */,
+				5252DB541B6ED6EF00262619 /* UMPDataSource.m in Sources */,
 				5252DB291B6D847600262619 /* AppDelegate.m in Sources */,
+				5252DB571B6ED91200262619 /* UMPCampus.m in Sources */,
+				5252DB511B6ED4ED00262619 /* UMPLocation.m in Sources */,
 				5252DB261B6D847600262619 /* main.m in Sources */,
 				5252DB4D1B6EC80300262619 /* LocationsViewController.m in Sources */,
 			);
@@ -357,6 +442,7 @@
 		};
 		5252DB441B6D847600262619 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B432C51F30BD74B7E9CA749E /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "UCD Map v2/Info.plist";
@@ -367,6 +453,7 @@
 		};
 		5252DB451B6D847600262619 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C2D56993AC4595A0B4D090D /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "UCD Map v2/Info.plist";
@@ -428,6 +515,7 @@
 				5252DB451B6D847600262619 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5252DB461B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map v2Tests" */ = {
 			isa = XCConfigurationList;
@@ -436,6 +524,7 @@
 				5252DB481B6D847600262619 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
