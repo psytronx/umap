@@ -7,9 +7,13 @@
 //
 
 #import "LocationsViewController.h"
+#import "UMPDataSource.h"
+#import "UMPCampus.h"
+#import "UMPLocation.h"
 
 @interface LocationsViewController ()
-
+@property (nonatomic, strong) NSDictionary *sections;
+@property (nonatomic, strong) NSArray *sortedSectionsArray;
 @end
 
 @implementation LocationsViewController
@@ -17,6 +21,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Register Key Value Observation of mediaItems
+    [[UMPDataSource sharedInstance] addObserver:self forKeyPath:@"locations" options:0 context:nil];
+    
+    // Register cell class for tableView
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+    // Set title
+    self.title = [UMPDataSource sharedInstance].campus.campusName;
+    
+    // Load data
+    [self refreshSections:self.searchBar.text];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,27 +41,83 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) dealloc
+{
+    [[UMPDataSource sharedInstance] removeObserver:self forKeyPath:@"locations"];
+}
+
+#pragma mark - KVO
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == [UMPDataSource sharedInstance] && [keyPath isEqualToString:@"locations"]) {
+        NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
+        
+        if (kindOfChange == NSKeyValueChangeSetting) {
+            [self refreshSections:self.searchBar.text];
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"Error: kindOfChange invalid. Needs to be equal to NSKeyValueChangeSetting.");
+        }
+    }
+}
+
+
+#pragma mark - Refresh Data
+
+- (void)refreshSections:(NSString *)searchString
+{
+    // Get filtered and sorted array of locations
+    NSArray *locations = [UMPDataSource sharedInstance].locations;
+    if ([searchString length] > 0){
+        NSPredicate *sPredicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"name contains[c] '%@'", searchString]];
+        locations = [locations filteredArrayUsingPredicate:sPredicate];
+    }
+    locations = [locations sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        // Sort by name
+        NSString *first = ((UMPLocation*)a).name;
+        NSString *second = ((UMPLocation*)b).name;
+        return [first compare:second];
+    }];
+    
+    // Refresh sections and sortedSectionsArray
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init]; //Temp container. Will be assigned to self.dictSectionRow
+    for (UMPLocation *location in locations){
+        NSString *ch = [[NSString alloc] initWithString:[location.name substringToIndex:1]];
+        if ([dict objectForKey:ch] == nil){
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            [dict setValue:arr forKey:ch];
+        }
+        // insert the location into the corresponding section
+        [[dict objectForKey:ch] addObject:location];
+    }
+    self.sections = dict;
+    self.sortedSectionsArray = [[dict allKeys] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        return [a compare:b];
+    }];
+//    self.sortedSectionsArray = [dict keysSortedByValueUsingComparator:^NSComparisonResult(id a, id b) {
+//        return [a compare:b];
+//    }];
+}
 
 // =========================================================================
-#pragma mark -
-#pragma mark Table View Data Source Methods
+#pragma mark - Table View Data Source Methods
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    int num = 0;
-    num = [self.locationListViewHelper getNumOfSections];
     
+    NSUInteger num = [self.sortedSectionsArray count];
     return (num > 0) ? num : 1;
+
 }
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
-    int num = 0;
-    int numOfRows = 0;
+    if ([self.sortedSectionsArray count] == 0){
+        return 0;
+    }
     
-    num = [self.locationListViewHelper getNumOfSections];
-    if (num == 0) { return 0; }
-    NSString *sectionName = [self.locationListViewHelper getSectionName:section];
-    numOfRows = [self.locationListViewHelper getNumOfRows:sectionName];
+    NSString *sectionName = self.sortedSectionsArray[section];
+    NSUInteger numOfRows = [self.sections[sectionName] count];
     
     return numOfRows;
 }
@@ -52,160 +125,98 @@
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //Convenience variables
-    NSInteger sectionNum = [indexPath section];
+    NSInteger section = [indexPath section];
     NSInteger rowNum = [indexPath row];
     
-    Location *location = [self.locationListViewHelper getLocationAtSection:sectionNum atRow:rowNum];
-    NSString *rowName = location.name;
-    NSString *code = ([location.code isEqualToString:@""]) ? @" " : location.code;
-    //Note: The default space ensures that the cell is spaced consistently even if there's no code.
-    NSInteger roomMapLocationId = location.RoomMapLocationId;
+    NSString *sectionName = self.sortedSectionsArray[section];
+    UMPLocation *location = self.sections[sectionName][rowNum];
     
     static NSString *sectionsTableIdentifier = @"sectionsTableIdentifier";
     
     UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier: sectionsTableIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                       reuseIdentifier:sectionsTableIdentifier] autorelease];
-        //cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
-        //							   reuseIdentifier:sectionsTableIdentifier] autorelease];
-        /*
-         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero
-         reuseIdentifier: sectionsTableIdentifier] autorelease];
-         */
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                       reuseIdentifier:sectionsTableIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
-    
-    [cell.textLabel setText:rowName];
+    [cell.textLabel setText:location.name];
     cell.textLabel.font = [UIFont systemFontOfSize:15.0];
-    
-    [cell.detailTextLabel setText:code];
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
-    
-    /*
-     UILabel *cellLabel = [[[UILabel alloc] initWithFrame:cell.frame] autorelease];
-     NSString *cellLabelText = [[NSString alloc] initWithFormat:@"  %@", rowName];
-     cellLabel.text = cellLabelText;
-     cellLabel.font = [UIFont systemFontOfSize:15.0];
-     cellLabel.backgroundColor = [UIColor clearColor];
-     cellLabel.opaque = NO;
-     [cell.contentView addSubview:cellLabel];
-     cell.backgroundColor = [UIColor whiteColor];
-     [cellLabel release];
-     [cellLabelText release];
-     */
-    
-    // If there is are floor plans for this location, show a button in the row.
-    if (roomMapLocationId) {
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    }else{
-        cell.accessoryType = UITableViewCellAccessoryNone;//UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
-    /*
-     if ([self.selectedBuildingIDsDict objectForKey:rowName] == nil){
-     [[cell.contentView.subviews objectAtIndex:0] setFont:[UIFont systemFontOfSize:15.0]];
-     //cell.textLabel.font = [UIFont systemFontOfSize:15.0];
-     cell.backgroundColor = [UIColor whiteColor];
-     }else{
-     [[cell.contentView.subviews objectAtIndex:0] setFont:[UIFont boldSystemFontOfSize:20.0]];
-     //cell.textLabel.font = [UIFont boldSystemFontOfSize:24.0];
-     cell.backgroundColor = [UIColor greenColor];
-     }
-     */
-    
-    //	if (![self.selectedBuildingArray containsObject:rowName]){
-    //		cell.textLabel.font = [UIFont systemFontOfSize:15.0];
-    //		//cell.accessoryType=UITableViewCellAccessoryNone;
-    //	}else{
-    //		cell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
-    //		//cell.accessoryType=UITableViewCellAccessoryCheckmark;
-    //	}
-    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    int num = 0;
-    NSString *sectionName = @"";
-    
-    num = [self.locationListViewHelper getNumOfSections];
-    if (num == 0) { return @""; }
-    sectionName = [self.locationListViewHelper getSectionName:section];
-    
-    return sectionName;
+    if ([self.sortedSectionsArray count] == 0) {
+        return @"";
+    }
+    return self.sortedSectionsArray[section];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    NSArray *keys;
-    
-    keys = [self.locationListViewHelper getListOfSectionNames];
-    
-    return keys;
+    return self.sortedSectionsArray;
 }
 
-#pragma mark -
-#pragma mark Table View Delegate Methods
-
-// For now, just have single select.
-// Code here was originally in tableView:accessoryButtonTappedForRowWithIndexPath:
-// - RH 12/28/2010
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    // variables for section and row number
-    self.selectedSectionNum = indexPath.section;
-    self.selectedRowNum = indexPath.row;
-    
-    NSString *rowName = [[NSString alloc] initWithString:[self.locationListViewHelper getRowName:selectedSectionNum atRowIndex:selectedRowNum]];
-    
-    NSLog(@"rowName: %@", rowName);
-    self.selectedBuildingName = rowName;
-    [rowName release];
-    
-    //	[mIndicatorView startAnimating];
-    //	[self.view addSubview:mIndicatorView];
-    
-    // RH 1/1/11 Comment out
-    //	NSMutableArray *locArray = [[[NSMutableArray alloc] init] autorelease];
-    //	[locArray addObject:rowName];
-    
-    NSMutableArray * arrayLocations = [[NSMutableArray alloc] init];
-    [arrayLocations addObject:rowName]; // Build array of locations' name. Well, only one location in this case.
-    NSMutableDictionary *locations = [self.locationListViewHelper getLocations:arrayLocations];
-    [arrayLocations release];
-    
-    //	[self goMap_single:locArray];
-    //	[self goMap_with_indicator:locations];
-    [self goMap_reverse:locations];
-    
-    // take away that blue highlight
-    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-// Go to floorplans view.
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    //Convenience variables
-    NSInteger sectionNum = [indexPath section];
-    NSInteger rowNum = [indexPath row];
-    
-    // Go to floorplans view.
-    Location *location = [self.locationListViewHelper getLocationAtSection:sectionNum atRow:rowNum];
-    if (location){
-        NSInteger roomMapLocationId = location.RoomMapLocationId;
-        NSString * navTitle = location.name;
-        FloorsViewController *controller = [[FloorsViewController alloc] initWithRoomMapLocationID: roomMapLocationId withTitle:navTitle];//initWithNibName:@"FloorsViewController" bundle:nil];
-        [self.navigationController pushViewController:controller animated:YES];
-        [controller release];
-    }
-}
-
+#pragma mark - Table View Delegate Methods
+//
+//// For now, just have single select.
+//// Code here was originally in tableView:accessoryButtonTappedForRowWithIndexPath:
+//// - RH 12/28/2010
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    // variables for section and row number
+//    self.selectedSectionNum = indexPath.section;
+//    self.selectedRowNum = indexPath.row;
+//    
+//    NSString *rowName = [[NSString alloc] initWithString:[self.locationListViewHelper getRowName:selectedSectionNum atRowIndex:selectedRowNum]];
+//    
+//    NSLog(@"rowName: %@", rowName);
+//    self.selectedBuildingName = rowName;
+//    [rowName release];
+//    
+//    //	[mIndicatorView startAnimating];
+//    //	[self.view addSubview:mIndicatorView];
+//    
+//    // RH 1/1/11 Comment out
+//    //	NSMutableArray *locArray = [[[NSMutableArray alloc] init] autorelease];
+//    //	[locArray addObject:rowName];
+//    
+//    NSMutableArray * arrayLocations = [[NSMutableArray alloc] init];
+//    [arrayLocations addObject:rowName]; // Build array of locations' name. Well, only one location in this case.
+//    NSMutableDictionary *locations = [self.locationListViewHelper getLocations:arrayLocations];
+//    [arrayLocations release];
+//    
+//    //	[self goMap_single:locArray];
+//    //	[self goMap_with_indicator:locations];
+//    [self goMap_reverse:locations];
+//    
+//    // take away that blue highlight
+//    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+//}
+//
+//// Go to floorplans view.
+//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+//{
+//    //Convenience variables
+//    NSInteger sectionNum = [indexPath section];
+//    NSInteger rowNum = [indexPath row];
+//    
+//    // Go to floorplans view.
+//    Location *location = [self.locationListViewHelper getLocationAtSection:sectionNum atRow:rowNum];
+//    if (location){
+//        NSInteger roomMapLocationId = location.RoomMapLocationId;
+//        NSString * navTitle = location.name;
+//        FloorsViewController *controller = [[FloorsViewController alloc] initWithRoomMapLocationID: roomMapLocationId withTitle:navTitle];//initWithNibName:@"FloorsViewController" bundle:nil];
+//        [self.navigationController pushViewController:controller animated:YES];
+//        [controller release];
+//    }
+//}
+//
 
 // ===========================================================================================
-#pragma mark - Search Bar Methods
+#pragma mark - UISearchBarDelegate Methods
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     NSLog(@"about to start editing");
@@ -235,24 +246,14 @@
 {
     // Here we will need to do our searches...
     NSLog(@"textDidChange : %@", searchText);
-    [mIndicatorView startAnimating];
-    [self.view addSubview:mIndicatorView];
-    
     [self performSelector:@selector(showSearchResult:) withObject:searchText afterDelay:0.0];
-    
-    //[self.locationListObj rebuildSectionRowDict:searchText];
     
 }
 
 - (void)showSearchResult:(NSString *)searchText
 {
-    [self.locationListViewHelper rebuildSectionRowDict:searchText];
-    
-    [mIndicatorView stopAnimating];
-    [mIndicatorView removeFromSuperview];
-    
-    // refresh the table view
-    [self.myTable reloadData];
+    [self refreshSections:searchText];
+    [self.tableView reloadData];
 }
 
 /*

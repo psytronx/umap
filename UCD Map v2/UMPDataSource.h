@@ -10,9 +10,12 @@
 
 typedef void (^LDRequestCompletionBlock)(NSError *error);
 
+@class UMPCampus;
+
 @interface UMPDataSource : NSObject
 
 @property (nonatomic, strong, readonly) NSArray *locations; // Locations data
+@property (nonatomic, strong, readonly) UMPCampus *campus; // Campus data. After init, stays constant
 
 + (instancetype) sharedInstance;
 

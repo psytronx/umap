@@ -77,6 +77,9 @@
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="EgE-hX-qEC">
                                 <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="1MC-wL-q1A" id="i7T-iR-PVS"/>
+                                </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="v65-cQ-h7G">
                                 <rect key="frame" x="0.0" y="108" width="600" height="492"/>
@@ -99,6 +102,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jn9-zJ-OVn"/>
+                    <connections>
+                        <outlet property="searchBar" destination="EgE-hX-qEC" id="KGM-QE-R4h"/>
+                        <outlet property="tableView" destination="v65-cQ-h7G" id="TJH-Xo-MGr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xT2-TE-yQY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

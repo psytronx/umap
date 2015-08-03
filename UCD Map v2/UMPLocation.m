@@ -50,4 +50,14 @@
     return self;
 }
 
+- (UMPLocation *) copyWithZone: (NSZone *)zone {
+    UMPLocation *location = [[UMPLocation alloc] init];
+    location.id = self.id;
+    location.name = self.name;
+    location.category = self.category;
+    location.latitude = self.latitude;
+    location.longitude = self.longitude;
+    return location;
+}
+
 @end

@@ -13,9 +13,9 @@
 
 @interface UMPDataSource () {
     NSMutableArray *_locations;
+    UMPCampus *_campus;
 }
 
-@property (nonatomic, strong) UMPCampus *campus; // Campus data. After init, stays constant
 @property (nonatomic, strong) AFHTTPRequestOperationManager *ldOperationManager;
 
 @end
@@ -38,21 +38,21 @@
         [self createOperationManager];
         
         // Check for saved data
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
             // Get campus data
             NSString *path = [[NSBundle mainBundle] pathForResource:@"app-settings" ofType:@"plist"];
             NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:path];
-            self.campus = [[UMPCampus alloc] init];
-            self.campus.campusCode = settings[@"Campus Code"];
-            self.campus.campusName = settings[@"Campus Name"];
-            self.campus.wikipediaUrl = settings[@"Wikipedia URL"];
+            _campus = [[UMPCampus alloc] init];
+            _campus.campusCode = settings[@"Campus Code"];
+            _campus.campusName = settings[@"Campus Name"];
+            _campus.wikipediaUrl = settings[@"Wikipedia URL"];
             
             // Load any archived data
             NSString *fullPathLocations = [self pathForFilename:NSStringFromSelector(@selector(locations))];
             NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+//            dispatch_async(dispatch_get_main_queue(), ^{
                 if (storedLocations.count > 0) {
                     
                     // Load locations into memory
@@ -65,8 +65,8 @@
                     // There is no archived data yet, so let's get some
                     [self populateLocationsDataWithCompletionHandler:nil];
                 }
-            });
-        });
+//            });
+//        });
     }
     
     return self;
@@ -119,6 +119,10 @@
     [self didChangeValueForKey:@"locations"];
     
     [self saveLocations];
+    
+}
+
+- (void) updateSections {
     
 }
 

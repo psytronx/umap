@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UMPLocation : NSObject <NSCoding>
+@interface UMPLocation : NSObject <NSCoding, NSCopying>
 @property (nonatomic) NSInteger id;
-@property (nonatomic, strong) NSString * name;
-@property (nonatomic, strong) NSString * category;
+@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString * category;
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
 
