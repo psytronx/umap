@@ -113,6 +113,36 @@
     
 }
 
+
+#pragma mark - Key/Value Observing
+
+- (NSUInteger) countOfLocations {
+    return self.locations.count;
+}
+
+- (id) objectInLocationsAtIndex:(NSUInteger)index {
+    return [self.locations objectAtIndex:index];
+}
+
+- (NSArray *) locationsAtIndexes:(NSIndexSet *)indexes {
+    return [self.locations objectsAtIndexes:indexes];
+}
+
+- (void) insertObject:(UMPLocation *)object inLocationsAtIndex:(NSUInteger)index {
+    [_locations insertObject:object atIndex:index];
+}
+
+- (void) removeObjectFromLocationsAtIndex:(NSUInteger)index {
+    [_locations removeObjectAtIndex:index];
+}
+
+- (void) replaceObjectInLocationsAtIndex:(NSUInteger)index withObject:(id)object {
+    [_locations replaceObjectAtIndex:index withObject:object];
+}
+
+
+#pragma mark - Utils
+
 - (NSString *) pathForFilename:(NSString *) filename {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths firstObject];
