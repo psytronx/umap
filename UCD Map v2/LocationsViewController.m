@@ -7,6 +7,7 @@
 //
 
 #import "LocationsViewController.h"
+#import "MapViewController.h"
 #import "UMPDataSource.h"
 #import "UMPCampus.h"
 #import "UMPLocation.h"
@@ -141,7 +142,7 @@
     }
     [cell.textLabel setText:location.name];
     cell.textLabel.font = [UIFont systemFontOfSize:15.0];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;//UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
@@ -163,13 +164,14 @@
 //// For now, just have single select.
 //// Code here was originally in tableView:accessoryButtonTappedForRowWithIndexPath:
 //// - RH 12/28/2010
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"Row pressed");
 //    // variables for section and row number
 //    self.selectedSectionNum = indexPath.section;
 //    self.selectedRowNum = indexPath.row;
-//    
+}
+//
 //    NSString *rowName = [[NSString alloc] initWithString:[self.locationListViewHelper getRowName:selectedSectionNum atRowIndex:selectedRowNum]];
 //    
 //    NSLog(@"rowName: %@", rowName);
@@ -196,24 +198,21 @@
 //    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
 //}
 //
-//// Go to floorplans view.
-//- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-//{
-//    //Convenience variables
-//    NSInteger sectionNum = [indexPath section];
-//    NSInteger rowNum = [indexPath row];
-//    
-//    // Go to floorplans view.
-//    Location *location = [self.locationListViewHelper getLocationAtSection:sectionNum atRow:rowNum];
-//    if (location){
-//        NSInteger roomMapLocationId = location.RoomMapLocationId;
-//        NSString * navTitle = location.name;
-//        FloorsViewController *controller = [[FloorsViewController alloc] initWithRoomMapLocationID: roomMapLocationId withTitle:navTitle];//initWithNibName:@"FloorsViewController" bundle:nil];
-//        [self.navigationController pushViewController:controller animated:YES];
-//        [controller release];
-//    }
-//}
-//
+// Go to floorplans view.
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    //Convenience variables
+    NSInteger section = [indexPath section];
+    NSInteger row = [indexPath row];
+    
+    // Go to map view
+    NSString *sectionName = self.sortedSectionsArray[section];
+    UMPLocation *location = self.sections[sectionName][row];
+    if (location){
+        [self performSegueWithIdentifier:@"showmapview" sender:@[location]];
+    }
+}
+
 
 // ===========================================================================================
 #pragma mark - UISearchBarDelegate Methods
@@ -256,14 +255,24 @@
     [self.tableView reloadData];
 }
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Make sure your segue name in storyboard is the same as this line
+    if ([[segue identifier] isEqualToString:@"showmapview"] && [sender isKindOfClass:[NSArray class]])
+    {
+        
+        // Get reference to the destination view controller
+        MapViewController *mapViewController = [segue destinationViewController];
+
+        // Pass any objects to the view controller here, like...
+        mapViewController.locations = sender;
+        
+    }else {
+        NSLog(@"Error going to map view");
+    }
 }
-*/
 
 @end
