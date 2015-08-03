@@ -15,8 +15,7 @@
     NSMutableArray *_locations;
 }
 
-@property (nonatomic, strong) NSString *campusCode; // Campus code. Constant for this application
-@property (nonatomic, strong) UMPCampus *campus; // Campus data.
+@property (nonatomic, strong) UMPCampus *campus; // Campus data. After init, stays constant
 @property (nonatomic, strong) AFHTTPRequestOperationManager *ldOperationManager;
 
 @end
@@ -41,10 +40,12 @@
         // Check for saved data
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
-            // Get campus code
+            // Get campus data
             NSString *path = [[NSBundle mainBundle] pathForResource:@"app-settings" ofType:@"plist"];
             NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:path];
-            self.campusCode = settings[@"Campus Code"];
+            self.campus.campusCode = settings[@"Campus Code"];
+            self.campus.campusName = settings[@"Campus Name"];
+            self.campus.wikipediaUrl = settings[@"Wikipedia URL"];
             
             // Load any archived data
             NSString *fullPathCampus = [self pathForFilename:NSStringFromSelector(@selector(campus))];
@@ -68,7 +69,7 @@
                     
                 } else {
                     // There is no archived data yet, so let's get some
-                    [self populateDataWithCompletionHandler:nil];
+                    [self populateLocationsDataWithCompletionHandler:nil];
                 }
             });
         });
@@ -83,15 +84,15 @@
     self.ldOperationManager.responseSerializer = [AFJSONResponseSerializer serializer];
 }
 
-- (void) populateDataWithCompletionHandler:(LDRequestCompletionBlock)completionHandler {
+- (void) populateLocationsDataWithCompletionHandler:(LDRequestCompletionBlock)completionHandler {
 
-    NSMutableDictionary *mutableParameters = [@{@"campusCode": self.campusCode} mutableCopy];
+    NSMutableDictionary *mutableParameters = [@{@"campusCode": self.campus.campusCode} mutableCopy];
     
     [self.ldOperationManager GET:@"/ws/umap/1.2.1/getListOfLocations.json.php"
                              parameters:mutableParameters
                                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                                        [self parseDataFromLocations:responseObject];
+                                        [self parseLocationsDataFromFeedDictionary:responseObject];
                                     }
                                     
                                     if (completionHandler) {
@@ -105,7 +106,7 @@
     
 }
 
-- (void) parseDataFromLocations:(NSDictionary *) feedDictionary {
+- (void) parseLocationsDataFromFeedDictionary:(NSDictionary *) feedDictionary {
     
     NSLog(@"%@", feedDictionary);
     
