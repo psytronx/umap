@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^LDRequestCompletionBlock)(NSError *error);
+
 @interface UMPDataSource : NSObject
 
-@property (nonatomic, strong, readonly) NSArray *locations;
+@property (nonatomic, strong, readonly) NSArray *locations; // Locations data
 
 + (instancetype) sharedInstance;
 
