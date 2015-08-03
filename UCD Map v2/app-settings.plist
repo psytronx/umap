@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Campus Name</key>
+	<string>U.C. Davis</string>
+	<key>Campus Code</key>
+	<string>university_of_california_davis_california_us</string>
+	<key>Wikipedia URL</key>
+	<string>http://en.wikipedia.org/wiki/University_of_California,_Davis</string>
+</dict>
+</plist>
