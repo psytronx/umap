@@ -43,6 +43,7 @@
             // Get campus data
             NSString *path = [[NSBundle mainBundle] pathForResource:@"app-settings" ofType:@"plist"];
             NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:path];
+            self.campus = [[UMPCampus alloc] init];
             self.campus.campusCode = settings[@"Campus Code"];
             self.campus.campusName = settings[@"Campus Name"];
             self.campus.wikipediaUrl = settings[@"Wikipedia URL"];
