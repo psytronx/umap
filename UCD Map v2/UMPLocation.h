@@ -10,8 +10,11 @@
 
 @interface UMPLocation : NSObject <NSCoding>
 @property (nonatomic) NSInteger id;
-@property (nonatomic, copy) NSString * name;
-@property (nonatomic, copy) NSString * category;
+@property (nonatomic, strong) NSString * name;
+@property (nonatomic, strong) NSString * category;
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
+
+- (instancetype) initWithDictionary:(NSDictionary *)mediaDictionary;
+
 @end

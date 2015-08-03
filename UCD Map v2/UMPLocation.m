@@ -9,6 +9,20 @@
 
 @implementation UMPLocation
 
+- (instancetype) initWithDictionary:(NSDictionary *)mediaDictionary {
+    self = [super init];
+    
+    if (self) {
+        self.id = [((NSString*)mediaDictionary[@"id"]) integerValue];
+        self.name = mediaDictionary[@"name"];
+        self.category = mediaDictionary[@"category"];
+        self.latitude = [((NSString*)mediaDictionary[@"latitude"]) doubleValue];
+        self.longitude = [((NSString*)mediaDictionary[@"longitude"]) doubleValue];
+    }
+    
+    return self;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat: @"{ id = %lD; name = %@; category = %@; latitude = %f; longitude = %f",
             (long)self.id, self.name, self.category, self.latitude, self.longitude];

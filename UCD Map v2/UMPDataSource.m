@@ -49,18 +49,11 @@
             self.campus.wikipediaUrl = settings[@"Wikipedia URL"];
             
             // Load any archived data
-            NSString *fullPathCampus = [self pathForFilename:NSStringFromSelector(@selector(campus))];
-            UMPCampus *storedCampus = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathCampus];
             NSString *fullPathLocations = [self pathForFilename:NSStringFromSelector(@selector(locations))];
             NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (storedLocations.count > 0 && storedCampus) {
-                    
-                    // Load campus into memory
-                    [self willChangeValueForKey:@"campus"];
-                    self.campus = storedCampus;
-                    [self didChangeValueForKey:@"campus"];
+                if (storedLocations.count > 0) {
                     
                     // Load locations into memory
                     NSMutableArray *mutableLocations = [storedLocations mutableCopy];
@@ -110,7 +103,43 @@
 - (void) parseLocationsDataFromFeedDictionary:(NSDictionary *) feedDictionary {
     
     NSLog(@"%@", feedDictionary);
+    NSArray *locationsFeedArray = feedDictionary[@"campusLocations"];
     
+    NSMutableArray *tmpLocations = [NSMutableArray array];
+    for (NSDictionary *locationDictionary in locationsFeedArray) {
+        UMPLocation *location = [[UMPLocation alloc] initWithDictionary:locationDictionary];
+        if (location) {
+            [tmpLocations addObject:location];
+        }
+    }
+    
+    // Trigger KVO
+    [self willChangeValueForKey:@"locations"];
+    _locations = tmpLocations;
+    [self didChangeValueForKey:@"locations"];
+    
+    [self saveLocations];
+    
+}
+
+// Save locations to disk
+- (void) saveLocations {
+    
+    if (self.locations.count > 0) {
+        // Write the changes to disk
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *fullPath = [self pathForFilename:NSStringFromSelector(@selector(locations))];
+            NSData *locationsData = [NSKeyedArchiver archivedDataWithRootObject:self.locations];
+            
+            NSError *dataError;
+            BOOL wroteSuccessfully = [locationsData writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+            
+            if (!wroteSuccessfully) {
+                NSLog(@"Couldn't write file: %@", dataError);
+            }
+        });
+        
+    }
 }
 
 
