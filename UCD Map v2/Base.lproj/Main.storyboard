@@ -163,6 +163,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="b0r-di-f9P" id="fI4-we-6JS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d2V-lt-ZGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
