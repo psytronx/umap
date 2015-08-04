@@ -23,6 +23,8 @@
 		528C89831B70071C0072BFF8 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 528C89821B70071C0072BFF8 /* MapViewController.m */; };
 		528C89851B7010DA0072BFF8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528C89841B7010DA0072BFF8 /* MapKit.framework */; };
 		529C49181B70722F00295EB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 529C49171B70722F00295EB0 /* CoreLocation.framework */; };
+		529C491F1B717ABD00295EB0 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 529C491D1B717ABD00295EB0 /* checked.png */; };
+		529C49221B717B0600295EB0 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 529C49211B717B0600295EB0 /* unchecked.png */; };
 		5AA01ED06E25FD8DFB1564A3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFD3EE4182B0790C527F0CB /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +66,8 @@
 		528C89821B70071C0072BFF8 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		528C89841B7010DA0072BFF8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		529C49171B70722F00295EB0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		529C491D1B717ABD00295EB0 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
+		529C49211B717B0600295EB0 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
 		5AFD3EE4182B0790C527F0CB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C2D56993AC4595A0B4D090D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B432C51F30BD74B7E9CA749E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +139,8 @@
 				5252DB2D1B6D847600262619 /* Main.storyboard */,
 				5252DB301B6D847600262619 /* Images.xcassets */,
 				5252DB491B6D84CD00262619 /* logo_background.png */,
+				529C491D1B717ABD00295EB0 /* checked.png */,
+				529C49211B717B0600295EB0 /* unchecked.png */,
 				5252DB321B6D847600262619 /* LaunchScreen.xib */,
 				5252DB231B6D847600262619 /* Supporting Files */,
 			);
@@ -272,10 +278,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529C491F1B717ABD00295EB0 /* checked.png in Resources */,
 				5252DB2F1B6D847600262619 /* Main.storyboard in Resources */,
 				5252DB341B6D847600262619 /* LaunchScreen.xib in Resources */,
 				5252DB4A1B6D84CD00262619 /* logo_background.png in Resources */,
 				5252DB311B6D847600262619 /* Images.xcassets in Resources */,
+				529C49221B717B0600295EB0 /* unchecked.png in Resources */,
 				528C89801B6EED630072BFF8 /* app-settings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

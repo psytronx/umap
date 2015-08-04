@@ -15,6 +15,7 @@
 @interface LocationsViewController ()
 @property (nonatomic, strong) NSDictionary *sections;
 @property (nonatomic, strong) NSArray *sortedSectionsArray;
+@property (nonatomic, strong) NSMutableArray *checkedLocations;
 @end
 
 @implementation LocationsViewController
@@ -22,6 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Instantiate properties if needed
+    self.checkedLocations = [[NSMutableArray alloc] init];
     
     // Register Key Value Observation of mediaItems
     [[UMPDataSource sharedInstance] addObserver:self forKeyPath:@"locations" options:0 context:nil];
@@ -125,25 +129,60 @@
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //Convenience variables
+    
+    // Get location
     NSInteger section = [indexPath section];
     NSInteger rowNum = [indexPath row];
-    
     NSString *sectionName = self.sortedSectionsArray[section];
     UMPLocation *location = self.sections[sectionName][rowNum];
     
-    static NSString *sectionsTableIdentifier = @"sectionsTableIdentifier";
-    
-    UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier: sectionsTableIdentifier];
+    // Setup cell
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                       reuseIdentifier:sectionsTableIdentifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
+    
+    // Setup checkbox
+    if ([self.checkedLocations containsObject:location]) {
+        cell.imageView.image = [UIImage imageNamed:@"checked.png"];
+    }
+    else {
+        cell.imageView.image = [UIImage imageNamed:@"unchecked.png"];
+    }
+    CGRect frame = cell.imageView.frame;
+    frame.size.width = 20;
+    cell.imageView.frame = frame;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleChecking:)];
+    [cell.imageView addGestureRecognizer:tap];
+    cell.imageView.backgroundColor = [UIColor colorWithRed:255.0 green:255.0 blue:255.0 alpha:0.0]; // Transparent background
+    
+    cell.imageView.userInteractionEnabled = YES; //added based on @John 's comment
+    //[tap release];
+    
     [cell.textLabel setText:location.name];
     cell.textLabel.font = [UIFont systemFontOfSize:15.0];
-    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;//UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
+}
+
+- (void) handleChecking:(UITapGestureRecognizer *)tapRecognizer {
+    CGPoint tapLocation = [tapRecognizer locationInView:self.tableView];
+    NSIndexPath *tappedIndexPath = [self.tableView indexPathForRowAtPoint:tapLocation];
+    
+    // Get location
+    NSInteger section = [tappedIndexPath section];
+    NSInteger rowNum = [tappedIndexPath row];
+    NSString *sectionName = self.sortedSectionsArray[section];
+    UMPLocation *location = self.sections[sectionName][rowNum];
+    
+    if ([self.checkedLocations containsObject:location]) {
+        [self.checkedLocations removeObject:location];
+    }
+    else {
+        [self.checkedLocations addObject:location];
+    }
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tappedIndexPath] withRowAnimation: UITableViewRowAnimationFade];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -167,6 +206,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Row pressed");
+    
+    //Convenience variables
+    NSInteger section = [indexPath section];
+    NSInteger row = [indexPath row];
+    
+    // Go to map view
+    NSString *sectionName = self.sortedSectionsArray[section];
+    UMPLocation *location = self.sections[sectionName][row];
+    if (location){
+        [self performSegueWithIdentifier:@"showmapview" sender:@[location]];
+    }
 //    // variables for section and row number
 //    self.selectedSectionNum = indexPath.section;
 //    self.selectedRowNum = indexPath.row;
