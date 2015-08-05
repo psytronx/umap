@@ -35,6 +35,25 @@
 
 #pragma mark - MKMapViewDelegate methods
 
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation
+{
+    MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc]     initWithAnnotation:annotation reuseIdentifier:@"pinLocation"];
+    
+    newAnnotation.canShowCallout = YES;
+    
+    UIButton *directionsButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    newAnnotation.rightCalloutAccessoryView = directionsButton;
+    
+    return newAnnotation;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+
+    NSLog(@"directions pressed");
+    
+}
+
 //- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 //{
 //    NSLog(@"viewForannotation");
