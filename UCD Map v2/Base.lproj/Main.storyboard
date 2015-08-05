@@ -109,7 +109,13 @@
                             <constraint firstItem="v65-cQ-h7G" firstAttribute="width" secondItem="bkG-ss-tb7" secondAttribute="width" id="xHw-L0-0IL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="jn9-zJ-OVn"/>
+                    <navigationItem key="navigationItem" id="jn9-zJ-OVn">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="ihO-Qa-XjW">
+                            <connections>
+                                <segue destination="Odd-FB-afx" kind="show" identifier="showmapview-selected-locations" id="VWF-kA-Sgd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="EgE-hX-qEC" id="KGM-QE-R4h"/>
                         <outlet property="tableView" destination="v65-cQ-h7G" id="TJH-Xo-MGr"/>
@@ -193,4 +199,7 @@
     <resources>
         <image name="logo_background.png" width="320" height="480"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="VWF-kA-Sgd"/>
+    </inferredMetricsTieBreakers>
 </document>

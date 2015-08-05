@@ -310,15 +310,21 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Make sure your segue name in storyboard is the same as this line
-    if ([[segue identifier] isEqualToString:@"showmapview"] && [sender isKindOfClass:[NSArray class]])
-    {
+    if ([[segue identifier] isEqualToString:@"showmapview"] && [sender isKindOfClass:[NSArray class]]){
         
         // Get reference to the destination view controller
         MapViewController *mapViewController = [segue destinationViewController];
 
         // Pass any objects to the view controller here, like...
         mapViewController.locations = sender;
+        
+    }else if ([[segue identifier] isEqualToString:@"showmapview-selected-locations"]){
+        
+        // Get reference to the destination view controller
+        MapViewController *mapViewController = [segue destinationViewController];
+        
+        // Pass any objects to the view controller here, like...
+        mapViewController.locations = self.checkedLocations;
         
     }else {
         NSLog(@"Error going to map view");

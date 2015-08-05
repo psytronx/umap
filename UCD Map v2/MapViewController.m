@@ -170,6 +170,12 @@
         //[myAnnotationArray addObject:annotation];
 //        [self.mapView addAnnotation:annotation];
         [self.mapView performSelector:@selector(addAnnotation:) withObject:annotation afterDelay:0.0];
+        if ([self.locations count] == 1){
+            // If only one location, show annotation right away
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                [self.mapView selectAnnotation:[[self.mapView annotations] objectAtIndex:0] animated:YES];
+            });
+        }
         
         // adjust range
         if (location.latitude > lat_max){ lat_max = location.latitude; }
@@ -196,7 +202,7 @@
         coord.longitude = (long_max+long_min)/2.0;
 //    }
     
-    float zoom = 0.15;
+    float zoom = 2;
     double span_latitudeDelta = (lat_max-lat_min)*zoom;
     double span_longitudeDelta = (long_max-long_min)*zoom;
     if (span_latitudeDelta == 0){
@@ -211,7 +217,8 @@
     NSLog(@"Setting region at point %g %g", coord.latitude, coord.longitude);
     NSLog(@"  with span %g %g", span_latitudeDelta, span_longitudeDelta);
     
-    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:true];
+//    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:true];
+    [self.mapView setRegion:region animated:true];
     
 //    // activate user location manager
 //    self.locationManager = [[CLLocationManager alloc] init];
