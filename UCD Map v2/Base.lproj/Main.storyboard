@@ -180,7 +180,7 @@
         <!--Navigation Controller-->
         <scene sceneID="wgZ-BP-LgN">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="flipHorizontal" id="XNz-do-YCR" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalTransitionStyle="crossDissolve" id="XNz-do-YCR" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ygH-Ab-f2L">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
