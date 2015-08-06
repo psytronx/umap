@@ -240,6 +240,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="mapTypeSegmentedControl" destination="fLC-kO-9VH" id="ibD-Eb-IXT"/>
                         <outlet property="mapView" destination="b0r-di-f9P" id="fI4-we-6JS"/>
                         <outlet property="toolbar" destination="gwt-lb-P4A" id="lOz-Kl-vlW"/>
                     </connections>

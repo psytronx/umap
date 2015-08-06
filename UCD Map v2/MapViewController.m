@@ -9,6 +9,9 @@
 #import "MapViewController.h"
 #import "UMPLocation.h"
 
+// Global variable, to persist chosen map type
+NSInteger ChosenMapType = MKMapTypeHybrid;
+
 @interface MapViewController ()
 @property (nonatomic, strong) UMPLocation* selectedLocation;
 @property (nonatomic, strong) CLLocation* userCLLocation;
@@ -47,7 +50,41 @@
     if ([existingpoints count] > 0) [self.mapView removeAnnotations:existingpoints];
     
     [self plotPins];
-//    [self performSelector:@selector(plotPins) withObject:nil afterDelay:0.0];
+    
+    self.mapView.mapType = ChosenMapType;
+    switch (ChosenMapType) {
+        case MKMapTypeHybrid:
+            self.mapTypeSegmentedControl.selectedSegmentIndex = 0;
+            break;
+        case MKMapTypeStandard:
+            self.mapTypeSegmentedControl.selectedSegmentIndex = 1;
+            break;
+        case MKMapTypeSatellite:
+            self.mapTypeSegmentedControl.selectedSegmentIndex = 2;
+            break;
+        default:
+            break;
+    }
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    self.mapView.mapType = ChosenMapType;
+    switch (ChosenMapType) {
+        case MKMapTypeHybrid:
+            self.mapTypeSegmentedControl.selectedSegmentIndex = 0;
+            break;
+        case MKMapTypeStandard:
+            self.mapTypeSegmentedControl.selectedSegmentIndex = 1;
+            break;
+        case MKMapTypeSatellite:
+            self.mapTypeSegmentedControl.selectedSegmentIndex = 2;
+            break;
+        default:
+            break;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -415,12 +452,13 @@
     
     // refresh the map view
     if (mapType == 0){
-        [self.mapView setMapType:MKMapTypeHybrid];
+        ChosenMapType = MKMapTypeHybrid;
     }else if (mapType == 1){
-        [self.mapView setMapType:MKMapTypeStandard];
+        ChosenMapType = MKMapTypeStandard;
     }else if (mapType == 2){
-        [self.mapView setMapType:MKMapTypeSatellite];
+        ChosenMapType = MKMapTypeSatellite;
     }
+    [self.mapView setMapType:ChosenMapType];
     
 }
 
