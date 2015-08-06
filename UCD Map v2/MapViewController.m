@@ -406,6 +406,24 @@
     
 }
 
+#pragma mark - Toolbar methods
+
+- (IBAction)mapTypeSegmentedControlValueChanged:(UISegmentedControl *)sender {
+    
+    NSInteger mapType = sender.selectedSegmentIndex;
+    NSLog(@"MapViewController: updateMapType: selectedSegmentIndex : %ld", mapType);
+    
+    // refresh the map view
+    if (mapType == 0){
+        [self.mapView setMapType:MKMapTypeHybrid];
+    }else if (mapType == 1){
+        [self.mapView setMapType:MKMapTypeStandard];
+    }else if (mapType == 2){
+        [self.mapView setMapType:MKMapTypeSatellite];
+    }
+    
+}
+
 
 /*
 #pragma mark - Navigation
