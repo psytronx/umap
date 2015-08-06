@@ -328,7 +328,24 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
         NSString *url_full;
         if (buttonIndex == 0) {
             NSLog(@"Directions in Apple Maps");
-//            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=w", self.url_prefix];
+            // Check to make sure we're in iOS 6+
+            Class mapItemClass = [MKMapItem class];
+            if (mapItemClass && [mapItemClass respondsToSelector:@selector(openMapsWithItems:launchOptions:)])
+            {
+                // Create an MKMapItem to pass to the Maps app
+                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.selectedLocation.latitude, self.selectedLocation.longitude);
+                MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+                MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:placemark];
+                [destination setName:self.selectedLocation.name];
+                
+                // Set the directions mode to "Driving"
+                NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
+                // Get the "Current User Location" MKMapItem
+                MKMapItem *source = [MKMapItem mapItemForCurrentLocation];
+                // Pass the current location and destination map items to the Maps app
+                // Set the direction mode in the launchOptions dictionary
+                [MKMapItem openMapsWithItems:@[source, destination] launchOptions:launchOptions];
+            }
         } else if (buttonIndex == 1) {
             NSLog(@"Directions in Google Maps");
             NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
