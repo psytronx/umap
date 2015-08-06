@@ -216,6 +216,10 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 {
 
     NSInteger index = [self.mapView.annotations indexOfObject:view.annotation];
+    if (self.mapView.annotations[0] == self.mapView.userLocation){
+        // If the first annotation is the user location dot, we need to decrement since the locations array doesn't have this
+        index = index - 1;
+    }
     self.selectedLocation = (UMPLocation *)self.locations[index];
     NSLog(@"directions pressed. location: %@", self.selectedLocation.name);
     
@@ -329,17 +333,18 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
             NSLog(@"Directions in Google Maps");
             NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
             NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
+            url_full = [NSString stringWithFormat:@"comgooglemaps://?saddr=%@&daddr=%@", saddr, daddr];
 //            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=d", self.url_prefix];
         } else {
             NSLog(@"Error. The app should never get here.");
             return;
         }
         
-//        // form complete url
-//        NSURL *url = [NSURL URLWithString:url_full];
-//        
-//        // call gMap
-//        [[UIApplication sharedApplication] openURL:url];
+        // form complete url
+        NSURL *url = [NSURL URLWithString:url_full];
+
+        // call gMap
+        [[UIApplication sharedApplication] openURL:url];
     }
     
     // -------------------------------------------------
