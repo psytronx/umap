@@ -294,11 +294,11 @@
         NSString *url_full;
         if (buttonIndex == 0) {
             NSLog(@"Directions in Apple Maps");
-            NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
-            NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
 //            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=w", self.url_prefix];
         } else if (buttonIndex == 1) {
             NSLog(@"Directions in Google Maps");
+            NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
+            NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
 //            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=d", self.url_prefix];
         } else {
             NSLog(@"Error. The app should never get here.");
