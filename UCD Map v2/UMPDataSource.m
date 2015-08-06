@@ -53,7 +53,7 @@
             NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
             
 //            dispatch_async(dispatch_get_main_queue(), ^{
-                if (storedLocations.count > /* DISABLES CODE */ (0) && NO) {
+                if (storedLocations.count) {
                     
                     // Load locations into memory
                     NSMutableArray *mutableLocations = [storedLocations mutableCopy];

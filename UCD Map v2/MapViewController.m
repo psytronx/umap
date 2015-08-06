@@ -10,7 +10,8 @@
 #import "UMPLocation.h"
 
 @interface MapViewController ()
-
+@property (nonatomic, strong) UMPLocation* selectedLocation;
+@property (nonatomic, strong) CLLocation* userCLLocation;
 @end
 
 @implementation MapViewController
@@ -18,6 +19,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title = @"Map";
+    
+    // Setup location manager
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    CLAuthorizationStatus authorizationStatus = [CLLocationManager authorizationStatus];
+    if (authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        
+        [self.locationManager startUpdatingLocation];
+        self.mapView.showsUserLocation = YES;
+        
+    }
+    
+    // Add tracking button to toolbar (this needs to be done programmatically; not available in Storyboard)
+    MKUserTrackingBarButtonItem *trackingButton = [[MKUserTrackingBarButtonItem alloc] initWithMapView:self.mapView];
+    NSMutableArray *items = [[NSMutableArray alloc] initWithArray:self.toolbar.items];
+    [items insertObject:trackingButton atIndex:0];
+    [self.toolbar setItems:items];
     
     // Clear any existing pins
     NSArray *existingpoints = self.mapView.annotations;
@@ -32,6 +55,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - CLLocationManagerDelegate methods
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)authorizationStatus{
+    if (authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        
+        [self.locationManager startUpdatingLocation];
+        self.mapView.showsUserLocation = YES;
+        
+    }
+}
+
+// Keep track of user's location
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    self.userCLLocation = [locations lastObject]; // The last object has latest user location
+}
 
 #pragma mark - MKMapViewDelegate methods
 
@@ -51,69 +88,37 @@
 {
 
     NSInteger index = [self.mapView.annotations indexOfObject:view.annotation];
-    UMPLocation *location = (UMPLocation *)self.locations[index];
-    NSLog(@"directions pressed. location: %@", location.name);
+    self.selectedLocation = (UMPLocation *)self.locations[index];
+    NSLog(@"directions pressed. location: %@", self.selectedLocation.name);
     
-    // Show UIActionSheet
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:@"Choosing these will exit this app."
-                                  delegate:self
-                                  cancelButtonTitle:@"Cancel"
-                                  destructiveButtonTitle: nil
-                                  otherButtonTitles:@"Walking direction", @"Driving direction", @"Public transit", nil];
+    // Setup UIActionSheet
+    UIActionSheet *actionSheet = [UIActionSheet alloc];
+    // Determine if Google maps app is available
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
+        
+        actionSheet = [actionSheet initWithTitle:@"These will exit the app"
+                                        delegate:self
+                               cancelButtonTitle:@"Cancel"
+                          destructiveButtonTitle:nil
+                               otherButtonTitles:@"Directions in Apple Maps", @"Directions in Google Maps", nil];
+        
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"comgooglemaps://?center=40.765819,-73.975866&zoom=14&views=traffic"]];
+        
+    } else {
+        
+        NSLog(@"Can't use comgooglemaps://");
+        actionSheet = [actionSheet initWithTitle:@"This will exit the app"
+                                        delegate:self
+                               cancelButtonTitle:@"Cancel"
+                          destructiveButtonTitle:nil
+                               otherButtonTitles:@"Directions in Apple Maps", nil];
+        
+    }
+    
     actionSheet.tag = 0; // Todo - use enum
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;//UIActionSheetStyleBlackOpaque;
     [actionSheet showInView:[self.view window]];
     
 }
-
-//- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
-//{
-//    NSLog(@"viewForannotation");
-//    MKAnnotationView* annotationView = nil;
-//    
-//    // determine the type of annotation, and produce the correct type of annotation view for it.
-//    if ([annotation isMemberOfClass:[CSMapAnnotation class]]){
-//        
-//        CSMapAnnotation* csAnnotation = (CSMapAnnotation*)annotation;
-//        NSString* identifier = @"Image";
-//        
-//        // RH 2/16/2011 Don't recycle pins. This results in pin image with wrong location code.
-//        //		CSImageAnnotationView* imageAnnotationView = (CSImageAnnotationView*)[self.mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-//        //		if(nil == imageAnnotationView)
-//        //		{
-//        CSImageAnnotationView* imageAnnotationView = [[[CSImageAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier pin_image:csAnnotation.pin_image] autorelease];
-//        
-//        // If location has floor plans (i.e. RoomMapLocationId != 0), show button that will link to floor plans view.
-//        if (csAnnotation.location.RoomMapLocationId != 0) {
-//            imageAnnotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-//        }
-//        
-//        //Right annotation button (Direction button)
-//        UIButton *btnTemp=[[UIButton alloc]init];
-//        btnTemp.frame=CGRectMake(0, 20, 30, 30);
-//        btnTemp.tag=123;//"BUTTON_DIRECTIONS"; //Hack! @todo create an enumeration here!
-//        [btnTemp setBackgroundImage:[UIImage imageNamed:@"directions.png"] forState:UIControlStateNormal];
-//        //[btnTemp addTarget:self action:@selector(showDirection:) forControlEvents:UIControlEventTouchUpInside];
-//        imageAnnotationView.leftCalloutAccessoryView=btnTemp;
-//        
-//        //		}
-//        
-//        annotationView = imageAnnotationView;
-//        
-//        CGPoint offset;
-//        offset.x = 0.0;
-//        offset.y = -10.0;
-//        [annotationView setCenterOffset:offset];
-//        [annotationView setEnabled:YES];
-//        [annotationView setCanShowCallout:YES];
-//        return annotationView;
-//    }else{
-//        // chances are we are dealing with the blue dot
-//        return nil;
-//    }
-//    
-//}
 
 // This method is used to animate pin drop for custom pin
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
@@ -272,22 +277,26 @@
         // DIRECTIONS
         
         if (buttonIndex == [actionSheet cancelButtonIndex]){
-            return; // well... coz the user cancelled...
+            return; // Cancel
+        }
+        
+        if (!self.selectedLocation){
+            NSLog(@"Error. The app should never get here. 'self.selectedLocation' was not assigned.");
+            return;
         }
         
         // form the complete url by reading the partial url saved by calloutAccessoryControlTapped
         NSString *url_full;
         if (buttonIndex == 0) {
-            NSLog(@"button 0");
+            NSLog(@"Directions in Apple Maps");
+            NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
+            NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
 //            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=w", self.url_prefix];
         } else if (buttonIndex == 1) {
-            NSLog(@"button 1");
+            NSLog(@"Directions in Google Maps");
 //            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=d", self.url_prefix];
-        } else if (buttonIndex == 2) {
-            NSLog(@"button 2");
-//            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=r", self.url_prefix];
         } else {
-            NSLog(@"what the... how did you get here???");
+            NSLog(@"Error. The app should never get here.");
             return;
         }
         
