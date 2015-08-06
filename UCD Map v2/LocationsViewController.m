@@ -199,12 +199,10 @@
 }
 
 #pragma mark - Table View Delegate Methods
-//
-//// For now, just have single select.
-//// Code here was originally in tableView:accessoryButtonTappedForRowWithIndexPath:
-//// - RH 12/28/2010
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     NSLog(@"Row pressed");
     
     //Convenience variables
@@ -217,38 +215,9 @@
     if (location){
         [self performSegueWithIdentifier:@"showmapview" sender:@[location]];
     }
-//    // variables for section and row number
-//    self.selectedSectionNum = indexPath.section;
-//    self.selectedRowNum = indexPath.row;
+    
 }
-//
-//    NSString *rowName = [[NSString alloc] initWithString:[self.locationListViewHelper getRowName:selectedSectionNum atRowIndex:selectedRowNum]];
-//    
-//    NSLog(@"rowName: %@", rowName);
-//    self.selectedBuildingName = rowName;
-//    [rowName release];
-//    
-//    //	[mIndicatorView startAnimating];
-//    //	[self.view addSubview:mIndicatorView];
-//    
-//    // RH 1/1/11 Comment out
-//    //	NSMutableArray *locArray = [[[NSMutableArray alloc] init] autorelease];
-//    //	[locArray addObject:rowName];
-//    
-//    NSMutableArray * arrayLocations = [[NSMutableArray alloc] init];
-//    [arrayLocations addObject:rowName]; // Build array of locations' name. Well, only one location in this case.
-//    NSMutableDictionary *locations = [self.locationListViewHelper getLocations:arrayLocations];
-//    [arrayLocations release];
-//    
-//    //	[self goMap_single:locArray];
-//    //	[self goMap_with_indicator:locations];
-//    [self goMap_reverse:locations];
-//    
-//    // take away that blue highlight
-//    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
-//}
-//
-// Go to floorplans view.
+
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     //Convenience variables
@@ -305,6 +274,26 @@
     [self.tableView reloadData];
 }
 
+
+#pragma mark - Toolbar actions
+
+- (IBAction)selectAllButtonClicked:(UIBarButtonItem *)sender {
+    
+    self.checkedLocations = [[UMPDataSource sharedInstance].locations mutableCopy];
+//    self.checkedLocations = [[NSMutableArray alloc] init];
+//    for (UMPLocation *location in [UMPDataSource sharedInstance]) {
+//        <#statements#>
+//    } mutableCopy];
+    [self.tableView reloadData];
+    
+}
+
+- (IBAction)deselectAllButtonClicked:(UIBarButtonItem *)sender {
+    
+    self.checkedLocations = [[NSMutableArray alloc] init];
+    [self.tableView reloadData];
+    
+}
 
 #pragma mark - Navigation
 

@@ -131,6 +131,11 @@
             continue;
         }
         
+        // Don't pin drop if there's more than 10 locations. Would take too long
+        if ([self.locations count] > 10){
+            continue;
+        }
+        
         // Check if current annotation is inside visible map rect
         MKMapPoint point =  MKMapPointForCoordinate(aV.annotation.coordinate);
         if (!MKMapRectContainsPoint(self.mapView.visibleMapRect, point)) {
@@ -208,7 +213,7 @@
 //        [self.mapView addAnnotation:annotation];
         [self.mapView performSelector:@selector(addAnnotation:) withObject:annotation afterDelay:0.0];
         if ([self.locations count] == 1){
-            // If only one location, show annotation right away
+            // If only one location, show annotation automatically
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                 [self.mapView selectAnnotation:[[self.mapView annotations] objectAtIndex:0] animated:YES];
             });
