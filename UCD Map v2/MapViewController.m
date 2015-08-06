@@ -77,6 +77,109 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
     // Dispose of any resources that can be recreated.
 }
 
+// Based on self.locations, plot pins on map
+- (void)plotPins{
+    
+    // plot locations
+    double lat_max = -65535.0;
+    double lat_min = 65535.0;
+    double long_max = -65535.0;
+    double long_min = 65535.0;
+    
+    for (UMPLocation *location in self.locations){
+        
+        // get info out of the location object
+        //        NSString *loc = location.name;
+        
+        // set pin coordinates
+        //        CLLocationDegrees latitude  = (CLLocationDegrees) location.latitude;
+        //        CLLocationDegrees longitude = (CLLocationDegrees) location.longitude;
+        //        CLLocation *pos = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        //        NSLog(@"%@ %lf %lf", loc, pos.coordinate.latitude, pos.coordinate.longitude);
+        
+        //        CSMapAnnotation * annotation = [[[CSMapAnnotation alloc] initWithCoordinate:[pos coordinate]
+        //                                                                     annotationType:CSMapAnnotationTypeImage//CSMapAnnotationTypeEnd
+        //                                                                              title:loc
+        //                                                                          pin_image:location.image
+        //                                                                           location:location] autorelease];
+        
+        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        CLLocationCoordinate2D pinCoordinate;
+        pinCoordinate.latitude = location.latitude;
+        pinCoordinate.longitude = location.longitude;
+        annotation.coordinate = pinCoordinate;
+        annotation.title = location.name;
+        
+        //[myAnnotationArray addObject:annotation];
+        //        [self.mapView addAnnotation:annotation];
+        [self.mapView performSelector:@selector(addAnnotation:) withObject:annotation afterDelay:0.0];
+        if ([self.locations count] == 1){
+            // If only one location, show annotation automatically
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                if (self.mapView.annotations[0] == self.mapView.userLocation){
+                    // First annotation is now user location (was inserted while drop animation was running!), so we use second annotation instead
+                    [self.mapView selectAnnotation:self.mapView.annotations[1] animated:YES];
+                } else {
+                    [self.mapView selectAnnotation:self.mapView.annotations[0] animated:YES];
+                }
+            });
+        }
+        
+        // adjust range
+        if (location.latitude > lat_max){ lat_max = location.latitude; }
+        if (location.latitude < lat_min){ lat_min = location.latitude; }
+        if (location.longitude > long_max){ long_max = location.longitude; }
+        if (location.longitude < long_min){ long_min = location.longitude; }
+    }
+    
+    // Region and Zoom
+    CLLocationCoordinate2D coord;
+    MKCoordinateSpan span;
+    //self.spanLat = span_latitudeDelta;
+    //self.spanLong = span_longitudeDelta;
+    //    if (centerOnCSUS){
+    //        NSLog(@"centerOnCSUS is YES. Centering on CSUS label in google map.");
+    //        // These coordinates center on "Califonia State University - Sacramento" label in Google Maps.
+    //        coord.latitude = 38.561800;//7884591;
+    //        coord.longitude = -121.42510380074603;//-121.425708353998;
+    //    }
+    //    else{
+    NSLog(@"lat_max: %g, lat_min: %g", lat_max, lat_min);
+    NSLog(@"long_max: %g, long_min: %g", long_max, long_min);
+    coord.latitude = (lat_max+lat_min)/2.0;//midpt
+    coord.longitude = (long_max+long_min)/2.0;
+    //    }
+    
+    float zoom = 2;
+    double span_latitudeDelta = (lat_max-lat_min)*zoom;
+    double span_longitudeDelta = (long_max-long_min)*zoom;
+    if (span_latitudeDelta == 0){
+        span_latitudeDelta = 0.005;
+    }
+    if (span_longitudeDelta == 0){
+        span_longitudeDelta = 0.005;
+    }
+    span = MKCoordinateSpanMake(span_latitudeDelta, span_longitudeDelta);
+    MKCoordinateRegion region = MKCoordinateRegionMake(coord, span);
+    //    self.region = MKCoordinateRegionMake(coord, span);
+    NSLog(@"Setting region at point %g %g", coord.latitude, coord.longitude);
+    NSLog(@"  with span %g %g", span_latitudeDelta, span_longitudeDelta);
+    
+    //    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:true];
+    [self.mapView setRegion:region animated:true];
+    
+    //    // activate user location manager
+    //    self.locationManager = [[CLLocationManager alloc] init];
+    //    [locationManager startUpdatingLocation];
+    //    locationManager.delegate = self;
+    //    locationManager.distanceFilter = kCLDistanceFilterNone;
+    //    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    //
+    //    // stop activity indicator
+    //    [mIndicatorView stopAnimating];
+    //    [mIndicatorView removeFromSuperview];
+}
+
 #pragma mark - CLLocationManagerDelegate methods
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)authorizationStatus{
     if (authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {
@@ -96,6 +199,9 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation
 {
+    
+    if (annotation == mapView.userLocation) return nil;
+    
     MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc]     initWithAnnotation:annotation reuseIdentifier:@"pinLocation"];
     
     newAnnotation.canShowCallout = YES;
@@ -196,104 +302,6 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
                              }
                          }];
     }
-}
-
-// Based on self.locations, plot pins on map
-- (void)plotPins{
-    
-    // plot locations
-    double lat_max = -65535.0;
-    double lat_min = 65535.0;
-    double long_max = -65535.0;
-    double long_min = 65535.0;
-    
-    for (UMPLocation *location in self.locations){
-        
-        // get info out of the location object
-//        NSString *loc = location.name;
-        
-        // set pin coordinates
-//        CLLocationDegrees latitude  = (CLLocationDegrees) location.latitude;
-//        CLLocationDegrees longitude = (CLLocationDegrees) location.longitude;
-//        CLLocation *pos = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-//        NSLog(@"%@ %lf %lf", loc, pos.coordinate.latitude, pos.coordinate.longitude);
-        
-//        CSMapAnnotation * annotation = [[[CSMapAnnotation alloc] initWithCoordinate:[pos coordinate]
-//                                                                     annotationType:CSMapAnnotationTypeImage//CSMapAnnotationTypeEnd
-//                                                                              title:loc
-//                                                                          pin_image:location.image
-//                                                                           location:location] autorelease];
-        
-        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-        CLLocationCoordinate2D pinCoordinate;
-        pinCoordinate.latitude = location.latitude;
-        pinCoordinate.longitude = location.longitude;
-        annotation.coordinate = pinCoordinate;
-        annotation.title = location.name;
-        
-        //[myAnnotationArray addObject:annotation];
-//        [self.mapView addAnnotation:annotation];
-        [self.mapView performSelector:@selector(addAnnotation:) withObject:annotation afterDelay:0.0];
-        if ([self.locations count] == 1){
-            // If only one location, show annotation automatically
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [self.mapView selectAnnotation:[[self.mapView annotations] objectAtIndex:0] animated:YES];
-            });
-        }
-        
-        // adjust range
-        if (location.latitude > lat_max){ lat_max = location.latitude; }
-        if (location.latitude < lat_min){ lat_min = location.latitude; }
-        if (location.longitude > long_max){ long_max = location.longitude; }
-        if (location.longitude < long_min){ long_min = location.longitude; }
-    }
-    
-    // Region and Zoom
-    CLLocationCoordinate2D coord;
-    MKCoordinateSpan span;
-    //self.spanLat = span_latitudeDelta;
-    //self.spanLong = span_longitudeDelta;
-//    if (centerOnCSUS){
-//        NSLog(@"centerOnCSUS is YES. Centering on CSUS label in google map.");
-//        // These coordinates center on "Califonia State University - Sacramento" label in Google Maps.
-//        coord.latitude = 38.561800;//7884591;
-//        coord.longitude = -121.42510380074603;//-121.425708353998;
-//    }
-//    else{
-        NSLog(@"lat_max: %g, lat_min: %g", lat_max, lat_min);
-        NSLog(@"long_max: %g, long_min: %g", long_max, long_min);
-        coord.latitude = (lat_max+lat_min)/2.0;//midpt
-        coord.longitude = (long_max+long_min)/2.0;
-//    }
-    
-    float zoom = 2;
-    double span_latitudeDelta = (lat_max-lat_min)*zoom;
-    double span_longitudeDelta = (long_max-long_min)*zoom;
-    if (span_latitudeDelta == 0){
-        span_latitudeDelta = 0.005;
-    }
-    if (span_longitudeDelta == 0){
-        span_longitudeDelta = 0.005;
-    }
-    span = MKCoordinateSpanMake(span_latitudeDelta, span_longitudeDelta);
-    MKCoordinateRegion region = MKCoordinateRegionMake(coord, span);
-//    self.region = MKCoordinateRegionMake(coord, span);
-    NSLog(@"Setting region at point %g %g", coord.latitude, coord.longitude);
-    NSLog(@"  with span %g %g", span_latitudeDelta, span_longitudeDelta);
-    
-//    [self.mapView setRegion:[self.mapView regionThatFits:region] animated:true];
-    [self.mapView setRegion:region animated:true];
-    
-//    // activate user location manager
-//    self.locationManager = [[CLLocationManager alloc] init];
-//    [locationManager startUpdatingLocation];
-//    locationManager.delegate = self;
-//    locationManager.distanceFilter = kCLDistanceFilterNone; 
-//    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-//    
-//    // stop activity indicator
-//    [mIndicatorView stopAnimating];
-//    [mIndicatorView removeFromSuperview];
 }
 
 // ======================================================================
