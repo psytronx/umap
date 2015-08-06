@@ -51,24 +51,9 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
     
     [self plotPins];
     
-    self.mapView.mapType = ChosenMapType;
-    switch (ChosenMapType) {
-        case MKMapTypeHybrid:
-            self.mapTypeSegmentedControl.selectedSegmentIndex = 0;
-            break;
-        case MKMapTypeStandard:
-            self.mapTypeSegmentedControl.selectedSegmentIndex = 1;
-            break;
-        case MKMapTypeSatellite:
-            self.mapTypeSegmentedControl.selectedSegmentIndex = 2;
-            break;
-        default:
-            break;
-    }
-    
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     
     self.mapView.mapType = ChosenMapType;
     switch (ChosenMapType) {
