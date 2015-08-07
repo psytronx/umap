@@ -204,7 +204,8 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
     
     if (annotation == mapView.userLocation) return nil;
     
-    MKPinAnnotationView *newAnnotation = [[MKPinAnnotationView alloc]     initWithAnnotation:annotation reuseIdentifier:@"pinLocation"];
+    MKAnnotationView *newAnnotation = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"orange marker"];
+    newAnnotation.image = [UIImage imageNamed:@"orange-map-marker.png"];
     
     newAnnotation.canShowCallout = YES;
     
