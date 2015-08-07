@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import "UMPLocation.h"
+#import "UMPAnnotation.h"
 
 // Global variable, to persist chosen map type
 NSInteger ChosenMapType = MKMapTypeHybrid;
@@ -103,12 +104,13 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
         //                                                                          pin_image:location.image
         //                                                                           location:location] autorelease];
         
-        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        UMPAnnotation *annotation = [[UMPAnnotation alloc] init];
         CLLocationCoordinate2D pinCoordinate;
         pinCoordinate.latitude = location.latitude;
         pinCoordinate.longitude = location.longitude;
         annotation.coordinate = pinCoordinate;
         annotation.title = location.name;
+        annotation.location = location;
         
         //[myAnnotationArray addObject:annotation];
         //        [self.mapView addAnnotation:annotation];
@@ -215,12 +217,7 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
 
-    NSInteger index = [self.mapView.annotations indexOfObject:view.annotation];
-    if (self.mapView.annotations[0] == self.mapView.userLocation){
-        // If the first annotation is the user location dot, we need to decrement since the locations array doesn't have this
-        index = index - 1;
-    }
-    self.selectedLocation = (UMPLocation *)self.locations[index];
+    self.selectedLocation = ((UMPAnnotation *)view.annotation).location;
     NSLog(@"directions pressed. location: %@", self.selectedLocation.name);
     
     // Setup UIActionSheet
