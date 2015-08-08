@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "UMPLocation.h"
 #import "UMPAnnotation.h"
+#import "Reachability.h"
 
 // Global variable, to persist chosen map type
 NSInteger ChosenMapType = MKMapTypeHybrid;
@@ -16,6 +17,7 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 @interface MapViewController ()
 @property (nonatomic, strong) UMPLocation* selectedLocation;
 @property (nonatomic, strong) CLLocation* userCLLocation;
+@property (nonatomic, strong) id applicationDidBecomeActiveNotificationObserver;
 @end
 
 @implementation MapViewController
@@ -23,6 +25,14 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // Setup NSNotification observers
+    self.applicationDidBecomeActiveNotificationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        
+        // If coming back from background, try testing for reachability again
+        [self stepTestForReachability];
+        
+    }];
     
     self.title = @"Map";
     
@@ -474,6 +484,62 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
     [self.mapView setMapType:ChosenMapType];
     
 }
+
+
+#pragma mark - Reachability
+
+- (void)stepTestForReachability {
+    
+    if ([self testReachibility]){
+        NSLog(@"There is internet connection");
+    }else{
+        NSLog(@"There is NO internet connection");
+        [self performSelector:@selector(showReachabilityErrorDialog) withObject:nil afterDelay:0.0];
+    }
+    
+}
+
+- (void)showReachabilityErrorDialog{
+    
+    NSString *title = @"Internet connectivity is required.";
+    NSString *message = @"Please turn on your device's internet connection.";
+    
+    // iOS 8+
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+                                                           handler:^(UIAlertAction * action) {
+                                                               NSURL*url=[NSURL URLWithString:UIApplicationOpenSettingsURLString];
+                                                               [[UIApplication sharedApplication] openURL:url];
+                                                           }];
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    [alert addAction:settingsAction];
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+    // iOS 7
+    // TODO Use macro
+    //    UIAlertView *alertIos7 = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    //    [alertIos7 show];
+    
+}
+
+- (BOOL)testReachibility {
+    
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        return false;
+    } else {
+        NSLog(@"There IS internet connection");
+        return true;
+    }
+    
+}
+
 
 
 /*
