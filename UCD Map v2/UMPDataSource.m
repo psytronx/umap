@@ -65,14 +65,25 @@ NSString *const LoadDataSucceeded = @"LoadDataSucceeded";
         // If there is, load locations from archive
         NSMutableArray *mutableLocations = [storedLocations mutableCopy];
         _locations = mutableLocations;
+        self.state = UMPDataSourceReady;
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataSucceeded object:nil];
         });
         
     } else {
         
+        self.state = UMPDataSourceLoadingData;
+        
         // There is no archived data yet, so let's get some from web-service
         [self populateLocationsDataWithCompletionHandler:^(NSError *error){
+            
+            if ([self dataExistsInDataSource]){
+                self.state = UMPDataSourceReady;
+                // Note: Even if there's an error from last load, data source is usable if there's older data.
+            } else {
+                self.state = UMPDataSourceNotReady;
+            }
+            
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataFailed object:error];
@@ -84,6 +95,18 @@ NSString *const LoadDataSucceeded = @"LoadDataSucceeded";
             }
         }];
         
+    }
+    
+}
+
+// Check if data exists in data source
+- (BOOL) dataExistsInDataSource {
+    
+    if (self.locations && [self.locations isKindOfClass:[NSMutableArray class]] &&
+        self.campus && [self.campus isKindOfClass:[NSMutableArray class]]) {
+        return YES;
+    } else {
+        return NO;
     }
     
 }

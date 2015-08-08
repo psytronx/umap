@@ -16,10 +16,18 @@ typedef void (^LDRequestCompletionBlock)(NSError *error);
 extern NSString *const LoadDataFailed;
 extern NSString *const LoadDataSucceeded;
 
+// Track state of data source. Is it usable yet?
+typedef NS_ENUM(NSInteger, UMPDataSourceState){
+    UMPDataSourceNotReady, // Has no data. Data source cannot be used.
+    UMPDataSourceLoadingData, // Currently attempting to load data.
+    UMPDataSourceReady // Has data. Data source is ready to be used.
+};
+
 @interface UMPDataSource : NSObject
 
 @property (nonatomic, strong, readonly) NSArray *locations; // Locations data
 @property (nonatomic, strong, readonly) UMPCampus *campus; // Campus data. After init, stays constant
+@property (nonatomic) UMPDataSourceState state; // Track state of data source. Is it usable yet?
 
 + (instancetype) sharedInstance;
 

@@ -25,10 +25,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    // Setup NSNotification observers
     self.UIApplicationDidBecomeActiveNotificationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
         
         // If coming back from background, try testing for reachability again
         [self stepTestForReachability];
+        
+    }];
+    self.loadDataSucceededObserver = [[NSNotificationCenter defaultCenter] addObserverForName:LoadDataSucceeded object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        
+        _dataDidLoad = YES;
+        [self considerMovingToNextViewController];
+        
+    }];
+    self.loadDataFailedObserver = [[NSNotificationCenter defaultCenter] addObserverForName:LoadDataFailed object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        
+        [self showDataFailedErrorDialog];
         
     }];
     
@@ -65,7 +77,7 @@
     
     [self.activityIndicator stopAnimating];
     
-    NSString *title = @"Internet required for this app.";
+    NSString *title = @"Internet connectivity is required.";
     NSString *message = @"Please turn on your device's internet connection.";
     
     // iOS 8+
@@ -93,21 +105,14 @@
 
 - (void)setupDataSource {
     
-    // First call to [UMPDataSource sharedInstance] loads data
-    [UMPDataSource sharedInstance];
+    // First call to [UMPDataSource sharedInstance] attempts to load data automatically
+    UMPDataSource *datasource = [UMPDataSource sharedInstance];
+    // However, the first call might have failed. If this is a re-attempt, we'll need to call loadData explicitly.
+    if (datasource.state == UMPDataSourceNotReady){
+        [datasource loadData];
+    }
     
-    // Now, we wait for response...
-    self.loadDataSucceededObserver = [[NSNotificationCenter defaultCenter] addObserverForName:LoadDataSucceeded object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        
-        _dataDidLoad = YES;
-        [self considerMovingToNextViewController];
-        
-    }];
-    self.loadDataFailedObserver = [[NSNotificationCenter defaultCenter] addObserverForName:LoadDataFailed object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        
-        [self showDataFailedErrorDialog];
-        
-    }];
+    // Now, wait for response. Notification observers setup in ViewDidLoad will trigger upon completion.
     
     // Also, trigger time delay, so that user is forced to stare at our beautiful LD logo for at least a second
     double delayInSeconds = 1.0;
@@ -119,6 +124,8 @@
 }
 
 - (void)showDataFailedErrorDialog{
+    
+    NSLog(@"Error: issue loading data");
     
     [self.activityIndicator stopAnimating];
     
