@@ -27,6 +27,9 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Y9p-2I-gyn">
+                                <rect key="frame" x="282" y="468" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -34,11 +37,14 @@
                             <constraint firstAttribute="centerX" secondItem="UkJ-MI-BdK" secondAttribute="centerX" constant="-7.5" id="DVB-wH-nV7"/>
                             <constraint firstAttribute="centerY" secondItem="UkJ-MI-BdK" secondAttribute="centerY" id="Hqj-37-jzX"/>
                             <constraint firstAttribute="centerY" secondItem="4aY-NB-P0S" secondAttribute="centerY" id="NxB-or-7eC"/>
+                            <constraint firstItem="4aY-NB-P0S" firstAttribute="bottom" secondItem="Y9p-2I-gyn" secondAttribute="bottom" constant="35" id="QNd-os-tjQ"/>
                             <constraint firstItem="UkJ-MI-BdK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cV1-Qk-Gda"/>
+                            <constraint firstAttribute="centerX" secondItem="Y9p-2I-gyn" secondAttribute="centerX" id="jME-Db-LkF"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UkJ-MI-BdK" secondAttribute="trailing" id="jOV-3t-R5h"/>
                             <constraint firstAttribute="centerX" secondItem="UkJ-MI-BdK" secondAttribute="centerX" id="mxs-jp-6up"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="UkJ-MI-BdK" secondAttribute="bottom" constant="10" id="nYB-5u-e5e"/>
                             <constraint firstAttribute="centerX" secondItem="4aY-NB-P0S" secondAttribute="centerX" id="oZn-6y-V4O"/>
+                            <constraint firstItem="UkJ-MI-BdK" firstAttribute="top" secondItem="Y9p-2I-gyn" secondAttribute="bottom" constant="66" id="wzp-wT-3rJ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="UkJ-MI-BdK" secondAttribute="bottom" constant="100" id="x5h-eX-YXD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="UkJ-MI-BdK" secondAttribute="trailing" constant="20" id="yPw-x2-uNa"/>
                             <constraint firstAttribute="centerY" secondItem="UkJ-MI-BdK" secondAttribute="centerY" constant="-260.5" id="zAq-SG-BYU"/>
@@ -48,6 +54,7 @@
                                 <exclude reference="DVB-wH-nV7"/>
                                 <exclude reference="Hqj-37-jzX"/>
                                 <exclude reference="mxs-jp-6up"/>
+                                <exclude reference="wzp-wT-3rJ"/>
                                 <exclude reference="yPw-x2-uNa"/>
                                 <exclude reference="zAq-SG-BYU"/>
                                 <exclude reference="x5h-eX-YXD"/>
@@ -57,6 +64,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="Y9p-2I-gyn" id="QC4-fp-VpS"/>
                         <segue destination="XNz-do-YCR" kind="show" identifier="start" id="yp8-mO-eyw"/>
                     </connections>
                 </viewController>

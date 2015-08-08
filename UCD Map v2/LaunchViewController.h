@@ -10,6 +10,7 @@
 
 @interface LaunchViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
