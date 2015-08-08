@@ -14,7 +14,7 @@
     BOOL _timeDelayPassed;
     BOOL _dataDidLoad;
 }
-
+@property (nonatomic, strong) id observer;
 @end
 
 @implementation LaunchViewController
@@ -27,7 +27,7 @@
         [UMPDataSource sharedInstance];
         
         // Now, we wait for response...
-        [[NSNotificationCenter defaultCenter] addObserverForName:LoadDataSucceeded object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        self.observer = [[NSNotificationCenter defaultCenter] addObserverForName:LoadDataSucceeded object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
             _dataDidLoad = YES;
             [self considerMovingToNextViewController];
         }];
@@ -45,6 +45,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self.observer];
 }
 
 - (void)considerMovingToNextViewController {
