@@ -20,6 +20,11 @@
 
 @end
 
+// Global placeholder strings for NSNotification
+// Note: These string literals are just placeholder data. Can be anything.
+NSString *const LoadDataFailed = @"LoadDataFailed";
+NSString *const LoadDataSucceeded = @"LoadDataSucceeded";
+
 @implementation UMPDataSource
 
 + (instancetype) sharedInstance {
@@ -37,36 +42,42 @@
     if (self) {
         [self createOperationManager];
         
-        // Check for saved data
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Get campus data
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"app-settings" ofType:@"plist"];
+        NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:path];
+        _campus = [[UMPCampus alloc] init];
+        _campus.campusCode = settings[@"Campus Code"];
+        _campus.campusName = settings[@"Campus Name"];
+        _campus.wikipediaUrl = settings[@"Wikipedia URL"];
         
-            // Get campus data
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"app-settings" ofType:@"plist"];
-            NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:path];
-            _campus = [[UMPCampus alloc] init];
-            _campus.campusCode = settings[@"Campus Code"];
-            _campus.campusName = settings[@"Campus Name"];
-            _campus.wikipediaUrl = settings[@"Wikipedia URL"];
+        // Load any archived data
+        NSString *fullPathLocations = [self pathForFilename:NSStringFromSelector(@selector(locations))];
+        NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
+        if (storedLocations.count) {
             
-            // Load any archived data
-            NSString *fullPathLocations = [self pathForFilename:NSStringFromSelector(@selector(locations))];
-            NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
+            // Load locations from disk
+            NSMutableArray *mutableLocations = [storedLocations mutableCopy];
+            _locations = mutableLocations;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataSucceeded object:nil];
+            });
+        
+        } else {
             
-//            dispatch_async(dispatch_get_main_queue(), ^{
-                if (storedLocations.count) {
-                    
-                    // Load locations into memory
-                    NSMutableArray *mutableLocations = [storedLocations mutableCopy];
-                    [self willChangeValueForKey:@"locations"];
-                    _locations = mutableLocations;
-                    [self didChangeValueForKey:@"locations"];
-                    
+            // There is no archived data yet, so let's get some from web-service
+            [self populateLocationsDataWithCompletionHandler:^(NSError *error){
+                if (error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataFailed object:error];
+                    });
                 } else {
-                    // There is no archived data yet, so let's get some
-                    [self populateLocationsDataWithCompletionHandler:nil];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataSucceeded object:nil];
+                    });
                 }
-//            });
-//        });
+            }];
+            
+        }
     }
     
     return self;
@@ -113,16 +124,8 @@
         }
     }
     
-    // Trigger KVO
-    [self willChangeValueForKey:@"locations"];
     _locations = tmpLocations;
-    [self didChangeValueForKey:@"locations"];
-    
     [self saveLocations];
-    
-}
-
-- (void) updateSections {
     
 }
 
@@ -145,34 +148,6 @@
         
     }
 }
-
-
-#pragma mark - Key/Value Observing
-
-- (NSUInteger) countOfLocations {
-    return self.locations.count;
-}
-
-- (id) objectInLocationsAtIndex:(NSUInteger)index {
-    return [self.locations objectAtIndex:index];
-}
-
-- (NSArray *) locationsAtIndexes:(NSIndexSet *)indexes {
-    return [self.locations objectsAtIndexes:indexes];
-}
-
-- (void) insertObject:(UMPLocation *)object inLocationsAtIndex:(NSUInteger)index {
-    [_locations insertObject:object atIndex:index];
-}
-
-- (void) removeObjectFromLocationsAtIndex:(NSUInteger)index {
-    [_locations removeObjectAtIndex:index];
-}
-
-- (void) replaceObjectInLocationsAtIndex:(NSUInteger)index withObject:(id)object {
-    [_locations replaceObjectAtIndex:index withObject:object];
-}
-
 
 #pragma mark - Utils
 
