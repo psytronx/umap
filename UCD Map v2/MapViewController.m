@@ -117,7 +117,7 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
         [self.mapView performSelector:@selector(addAnnotation:) withObject:annotation afterDelay:0.0];
         if ([self.locations count] == 1){
             // If only one location, show annotation automatically
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.8 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                 if (self.mapView.annotations[0] == self.mapView.userLocation){
                     // First annotation is now user location (was inserted while drop animation was running!), so we use second annotation instead
                     [self.mapView selectAnnotation:self.mapView.annotations[1] animated:YES];
@@ -281,7 +281,7 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
                               aV.frame.size.height);
         
         // Animate drop
-        [UIView animateWithDuration:0.5
+        [UIView animateWithDuration:0.65
                               delay:0.04*[views indexOfObject:aV]
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
