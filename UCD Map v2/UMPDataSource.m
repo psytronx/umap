@@ -41,46 +41,51 @@ NSString *const LoadDataSucceeded = @"LoadDataSucceeded";
     
     if (self) {
         [self createOperationManager];
-        
-        // Get campus data
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"app-settings" ofType:@"plist"];
-        NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:path];
-        _campus = [[UMPCampus alloc] init];
-        _campus.campusCode = settings[@"Campus Code"];
-        _campus.campusName = settings[@"Campus Name"];
-        _campus.wikipediaUrl = settings[@"Wikipedia URL"];
-        
-        // Load any archived data
-        NSString *fullPathLocations = [self pathForFilename:NSStringFromSelector(@selector(locations))];
-        NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
-        if (storedLocations.count) {
-            
-            // Load locations from disk
-            NSMutableArray *mutableLocations = [storedLocations mutableCopy];
-            _locations = mutableLocations;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataSucceeded object:nil];
-            });
-        
-        } else {
-            
-            // There is no archived data yet, so let's get some from web-service
-            [self populateLocationsDataWithCompletionHandler:^(NSError *error){
-                if (error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataFailed object:error];
-                    });
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataSucceeded object:nil];
-                    });
-                }
-            }];
-            
-        }
+        [self loadData];
     }
     
     return self;
+}
+
+- (void) loadData {
+    
+    // Get campus data
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"app-settings" ofType:@"plist"];
+    NSDictionary *settings = [[NSDictionary alloc] initWithContentsOfFile:path];
+    _campus = [[UMPCampus alloc] init];
+    _campus.campusCode = settings[@"Campus Code"];
+    _campus.campusName = settings[@"Campus Name"];
+    _campus.wikipediaUrl = settings[@"Wikipedia URL"];
+    
+    // Check if there is archived data
+    NSString *fullPathLocations = [self pathForFilename:NSStringFromSelector(@selector(locations))];
+    NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
+    if (storedLocations.count && 0) {
+        
+        // If there is, load locations from archive
+        NSMutableArray *mutableLocations = [storedLocations mutableCopy];
+        _locations = mutableLocations;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataSucceeded object:nil];
+        });
+        
+    } else {
+        
+        // There is no archived data yet, so let's get some from web-service
+        [self populateLocationsDataWithCompletionHandler:^(NSError *error){
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataFailed object:error];
+                });
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:LoadDataSucceeded object:nil];
+                });
+            }
+        }];
+        
+    }
+    
 }
 
 - (void) createOperationManager {

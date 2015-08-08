@@ -12,6 +12,7 @@ typedef void (^LDRequestCompletionBlock)(NSError *error);
 
 @class UMPCampus;
 
+// For NSNotification
 extern NSString *const LoadDataFailed;
 extern NSString *const LoadDataSucceeded;
 
@@ -21,5 +22,7 @@ extern NSString *const LoadDataSucceeded;
 @property (nonatomic, strong, readonly) UMPCampus *campus; // Campus data. After init, stays constant
 
 + (instancetype) sharedInstance;
+
+- (void) loadData;
 
 @end
