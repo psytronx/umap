@@ -27,9 +27,6 @@
     // Instantiate properties if needed
     self.checkedLocations = [[NSMutableArray alloc] init];
     
-    // Register Key Value Observation of mediaItems
-    [[UMPDataSource sharedInstance] addObserver:self forKeyPath:@"locations" options:0 context:nil];
-    
     // Register cell class for tableView
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     
@@ -52,26 +49,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void) dealloc
-{
-    [[UMPDataSource sharedInstance] removeObserver:self forKeyPath:@"locations"];
-}
-
-#pragma mark - KVO
-
-- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (object == [UMPDataSource sharedInstance] && [keyPath isEqualToString:@"locations"]) {
-        NSKeyValueChange kindOfChange = [change[NSKeyValueChangeKindKey] unsignedIntegerValue];
-        
-        if (kindOfChange == NSKeyValueChangeSetting) {
-            [self refreshSections:self.searchBar.text];
-            [self.tableView reloadData];
-        } else {
-            NSLog(@"Error: kindOfChange invalid. Needs to be equal to NSKeyValueChangeSetting.");
-        }
-    }
 }
 
 
