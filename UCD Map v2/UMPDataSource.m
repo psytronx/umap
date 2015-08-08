@@ -60,7 +60,7 @@ NSString *const LoadDataSucceeded = @"LoadDataSucceeded";
     // Check if there is archived data
     NSString *fullPathLocations = [self pathForFilename:NSStringFromSelector(@selector(locations))];
     NSArray *storedLocations = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPathLocations];
-    if (storedLocations.count && 0) {
+    if (storedLocations.count) {
         
         // If there is, load locations from archive
         NSMutableArray *mutableLocations = [storedLocations mutableCopy];
