@@ -229,34 +229,79 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 {
 
     self.selectedLocation = ((UMPAnnotation *)view.annotation).location;
-    NSLog(@"directions pressed. location: %@", self.selectedLocation.name);
+    NSLog(@"Annotation pressed. location: %@", self.selectedLocation.name);
     
-    // Setup UIActionSheet
-    UIActionSheet *actionSheet = [UIActionSheet alloc];
-    // Determine if Google maps app is available
+    // iOS 8+
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:self.selectedLocation.name
+                                                                   message:nil
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
-        
-        actionSheet = [actionSheet initWithTitle:@"These will exit the app"
-                                        delegate:self
-                               cancelButtonTitle:@"Cancel"
-                          destructiveButtonTitle:nil
-                               otherButtonTitles:@"Directions in Apple Maps", @"Directions in Google Maps", nil];
-        
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"comgooglemaps://?center=40.765819,-73.975866&zoom=14&views=traffic"]];
-        
-    } else {
-        
-        NSLog(@"Can't use comgooglemaps://");
-        actionSheet = [actionSheet initWithTitle:@"This will exit the app"
-                                        delegate:self
-                               cancelButtonTitle:@"Cancel"
-                          destructiveButtonTitle:nil
-                               otherButtonTitles:@"Directions in Apple Maps", nil];
-        
+        UIAlertAction* googleMapsAction = [UIAlertAction actionWithTitle:@"Directions in Google Maps" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {\
+                                                                   NSLog(@"Directions in Google Maps");
+                                                                   NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
+                                                                   NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
+                                                                   NSString *url_full = [NSString stringWithFormat:@"comgooglemaps://?saddr=%@&daddr=%@", saddr, daddr];
+                                                                   // form complete url
+                                                                   NSURL *url = [NSURL URLWithString:url_full];
+                                                                   
+                                                                   // call gMap
+                                                                   [[UIApplication sharedApplication] openURL:url];
+                                                               }];
+        [alert addAction:googleMapsAction];
     }
     
-    actionSheet.tag = 0; // Todo - use enum
-    [actionSheet showInView:[self.view window]];
+    UIAlertAction* appleMapsAction = [UIAlertAction actionWithTitle:@"Directions in Apple Maps" style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction * action) {
+                                                                 // Create an MKMapItem to pass to the Maps app
+                                                                 CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.selectedLocation.latitude, self.selectedLocation.longitude);
+                                                                 MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+                                                                 MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:placemark];
+                                                                 [destination setName:self.selectedLocation.name];
+                                                                 
+                                                                 // Set the directions mode to "Driving"
+                                                                 NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
+                                                                 // Get the "Current User Location" MKMapItem
+                                                                 MKMapItem *source = [MKMapItem mapItemForCurrentLocation];
+                                                                 // Pass the current location and destination map items to the Maps app
+                                                                 // Set the direction mode in the launchOptions dictionary
+                                                                 [MKMapItem openMapsWithItems:@[source, destination] launchOptions:launchOptions];
+                                                             }];
+    [alert addAction:appleMapsAction];
+
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction * action) {}];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+//    DEPRECATED IN iOS 8+
+//    // Setup UIActionSheet
+//    UIActionSheet *actionSheet = [UIActionSheet alloc];
+//    // Determine if Google maps app is available
+//    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
+//        
+//        actionSheet = [actionSheet initWithTitle:self.selectedLocation.name
+//                                        delegate:self
+//                               cancelButtonTitle:@"Cancel"
+//                          destructiveButtonTitle:nil
+//                               otherButtonTitles:@"Directions in Apple Maps", @"Directions in Google Maps", nil];
+//        
+////        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"comgooglemaps://?center=40.765819,-73.975866&zoom=14&views=traffic"]];
+//        
+//    } else {
+//        
+//        NSLog(@"Can't use comgooglemaps://");
+//        actionSheet = [actionSheet initWithTitle:self.selectedLocation.name
+//                                        delegate:self
+//                               cancelButtonTitle:@"Cancel"
+//                          destructiveButtonTitle:nil
+//                               otherButtonTitles:@"Directions in Apple Maps", nil];
+//        
+//    }
+//    
+//    actionSheet.tag = 0; // Todo - use enum
+//    [actionSheet showInView:[self.view window]];
     
 }
 
@@ -317,154 +362,62 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 }
 
 // ======================================================================
-#pragma mark - UIActionSheetDelegate Methods
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (actionSheet.tag == 0){
-        // DIRECTIONS
-        
-        if (buttonIndex == [actionSheet cancelButtonIndex]){
-            return; // Cancel
-        }
-        
-        if (!self.selectedLocation){
-            NSLog(@"Error. The app should never get here. 'self.selectedLocation' was not assigned.");
-            return;
-        }
-        
-        // form the complete url by reading the partial url saved by calloutAccessoryControlTapped
-        NSString *url_full;
-        if (buttonIndex == 0) {
-            NSLog(@"Directions in Apple Maps");
-            // Check to make sure we're in iOS 6+
-            Class mapItemClass = [MKMapItem class];
-            if (mapItemClass && [mapItemClass respondsToSelector:@selector(openMapsWithItems:launchOptions:)])
-            {
-                // Create an MKMapItem to pass to the Maps app
-                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.selectedLocation.latitude, self.selectedLocation.longitude);
-                MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
-                MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:placemark];
-                [destination setName:self.selectedLocation.name];
-                
-                // Set the directions mode to "Driving"
-                NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
-                // Get the "Current User Location" MKMapItem
-                MKMapItem *source = [MKMapItem mapItemForCurrentLocation];
-                // Pass the current location and destination map items to the Maps app
-                // Set the direction mode in the launchOptions dictionary
-                [MKMapItem openMapsWithItems:@[source, destination] launchOptions:launchOptions];
-            }
-        } else if (buttonIndex == 1) {
-            NSLog(@"Directions in Google Maps");
-            NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
-            NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
-            url_full = [NSString stringWithFormat:@"comgooglemaps://?saddr=%@&daddr=%@", saddr, daddr];
-//            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=d", self.url_prefix];
-        } else {
-            NSLog(@"Error. The app should never get here.");
-            return;
-        }
-        
-        // form complete url
-        NSURL *url = [NSURL URLWithString:url_full];
-
-        // call gMap
-        [[UIApplication sharedApplication] openURL:url];
-    }
-    
-    // -------------------------------------------------
-    
-//    else if (actionSheet.tag == 1){
-//        // SHARE LOCATION
+// DEPRECATED IN iOS 8+
+//#pragma mark - UIActionSheetDelegate Methods
+//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+//{
+//    if (actionSheet.tag == 0){
+//        // DIRECTIONS
 //        
 //        if (buttonIndex == [actionSheet cancelButtonIndex]){
-//            return; // well... coz the user cancelled...
+//            return; // Cancel
 //        }
 //        
-//        // call various compose views
-//        if (buttonIndex == 0) {
-//            NSLog(@"button 0");
-//            
-//            Class smsClass = (NSClassFromString(@"MFMessageComposeViewController"));
-//            //			if (smsClass != nil && [MFMessageComposeViewController canSendText]) {
-//            //				MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
-//            //				controller.body = text;
-//            //				controller.recipients = [NSArray arrayWithObjects: nil];
-//            //				controller.messageComposeDelegate = self;
-//            //				[self presentModalViewController:controller animated:YES];
-//            //				[controller release];
-//            //			}
-//            
-//            // Note: iOS 3.x doesn't have MFMessageComposeViewController. smsClass == nil checks for this.
-//            if (smsClass == nil || ![MFMessageComposeViewController canSendText]){
-//                NSString *title = [[NSString alloc] initWithString:@"SMS not setup"];
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"This feature is disabled because your SMS has not been set up yet." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//                [alert show];
-//                [alert release];
-//                [title release];
-//                return;
-//            }
-//            // Proceed with SMS
-//            MFMessageComposeViewController *vc = [[MFMessageComposeViewController alloc] init];
-//            // set up body
-//            NSString *url = [[NSString alloc] initWithFormat:@"http://maps.google.com/maps?q=My_Location@%g,%g", self.userLat, self.userLong];
-//            vc.body = url;
-//            vc.messageComposeDelegate = self;
-//            [self presentModalViewController:vc animated:YES];
-//            [vc release];
-//            
-//        } else if (buttonIndex == 1) {
-//            NSLog(@"button 1");
-//            // check to see if email sending is enabled.
-//            if (![MFMailComposeViewController canSendMail]){
-//                NSString *title = [[NSString alloc] initWithString:@"Email not setup"];
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"This feature is disabled because your email has not been set up yet." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//                [alert show];
-//                [alert release];
-//                [title release];
-//                return;
-//            }
-//            // Email
-//            MFMailComposeViewController *vc = [[MFMailComposeViewController alloc] init];
-//            vc.mailComposeDelegate = self;
-//            // set up subject
-//            // ref: http://iphonedevelopertips.com/cocoa/date-formatters-examples-take-2.html
-//            // ref: http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns
-//            NSDate *today = [NSDate date];
-//            NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//            [dateFormat setDateFormat:@"hh:mm a MMM dd z"];
-//            NSString *subject = [[NSString alloc] initWithFormat:@"My Location (%@)", [dateFormat stringFromDate:today]];
-//            [vc setSubject:subject];
-//            [subject release];
-//            [dateFormat release];
-//            // set up body
-//            NSMutableString *body = [[NSMutableString alloc] init];
-//            NSString *body1 = [[NSString alloc] initWithFormat:@"<br><br>My location is at ( %g , %g )<br><br>", self.userLat, self.userLong];
-//            NSString *body2 = [[NSString alloc] initWithString:@"You can click on the following link to see it on google map.<br>"];
-//            NSString *body3 = [[NSString alloc] initWithFormat:@"<a href=http://maps.google.com/maps?q=MyLocation@%g,%g>( %g , %g )</a><br><br><br>", self.userLat, self.userLong, self.userLat, self.userLong];
-//            NSString *body4 = [[NSString alloc] initWithString:@"This service is brought to you by <a href=http://www.logicaldimension.com>Logical Dimension</a>."];
-//            [body appendString:body1];
-//            [body appendString:body2];
-//            [body appendString:body3];
-//            [body appendString:body4];
-//            [body1 release];
-//            [body2 release];
-//            [body3 release];
-//            [body4 release];
-//            [vc setMessageBody:body isHTML:YES];
-//            //[vc.navigationBar setBarStyle:UIBarStyleBlack];
-//            vc.navigationBar.tintColor=[UIColor colorWithRed:0/256.0 green:87/256.0 blue:61/256.0 alpha:1.0];
-//            
-//            [self presentModalViewController:vc animated:YES];
-//            [vc release];
-//        } else {
-//            NSLog(@"what the... how did you get here???");
+//        if (!self.selectedLocation){
+//            NSLog(@"Error. The app should never get here. 'self.selectedLocation' was not assigned.");
 //            return;
 //        }
+//        
+//        // form the complete url by reading the partial url saved by calloutAccessoryControlTapped
+//        NSString *url_full;
+//        if (buttonIndex == 0) {
+//            NSLog(@"Directions in Apple Maps");
+//            // Check to make sure we're in iOS 6+
+//            Class mapItemClass = [MKMapItem class];
+//            if (mapItemClass && [mapItemClass respondsToSelector:@selector(openMapsWithItems:launchOptions:)])
+//            {
+//                // Create an MKMapItem to pass to the Maps app
+//                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.selectedLocation.latitude, self.selectedLocation.longitude);
+//                MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+//                MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:placemark];
+//                [destination setName:self.selectedLocation.name];
+//                
+//                // Set the directions mode to "Driving"
+//                NSDictionary *launchOptions = @{MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving};
+//                // Get the "Current User Location" MKMapItem
+//                MKMapItem *source = [MKMapItem mapItemForCurrentLocation];
+//                // Pass the current location and destination map items to the Maps app
+//                // Set the direction mode in the launchOptions dictionary
+//                [MKMapItem openMapsWithItems:@[source, destination] launchOptions:launchOptions];
+//            }
+//        } else if (buttonIndex == 1) {
+//            NSLog(@"Directions in Google Maps");
+//            NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
+//            NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
+//            url_full = [NSString stringWithFormat:@"comgooglemaps://?saddr=%@&daddr=%@", saddr, daddr];
+////            url_full = [[NSString alloc] initWithFormat:@"%@&dirflg=d", self.url_prefix];
+//        } else {
+//            NSLog(@"Error. The app should never get here.");
+//            return;
+//        }
+//        
+//        // form complete url
+//        NSURL *url = [NSURL URLWithString:url_full];
+//
+//        // call gMap
+//        [[UIApplication sharedApplication] openURL:url];
 //    }
-//    
-    
-}
+//}
 
 #pragma mark - Toolbar methods
 
