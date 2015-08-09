@@ -509,14 +509,14 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
                                                                    message:message
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
-                                                           handler:^(UIAlertAction * action) {
-                                                               NSURL*url=[NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                                                               [[UIApplication sharedApplication] openURL:url];
-                                                           }];
+//    UIAlertAction* settingsAction = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault
+//                                                           handler:^(UIAlertAction * action) {
+//                                                               NSURL*url=[NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//                                                               [[UIApplication sharedApplication] openURL:url];
+//                                                           }];
+//    [alert addAction:settingsAction];
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {}];
-    [alert addAction:settingsAction];
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
     
