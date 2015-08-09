@@ -34,6 +34,14 @@
         
     }];
     
+    // Show info button on toolbar
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [button addTarget:self action:@selector(infoButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    NSMutableArray *items = [[NSMutableArray alloc] initWithArray:self.toolbar.items];
+    [items insertObject:infoButton atIndex:items.count];
+    [self.toolbar setItems:items];
+    
     // Instantiate properties if needed
     self.checkedLocations = [[NSMutableArray alloc] init];
     
@@ -63,6 +71,10 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.applicationDidBecomeActiveNotificationObserver];
+}
+
+- (void) infoButtonTapped {
+    NSLog(@"Info Button tapped.");
 }
 
 

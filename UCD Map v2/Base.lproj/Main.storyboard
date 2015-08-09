@@ -167,6 +167,7 @@
                     <connections>
                         <outlet property="searchBar" destination="EgE-hX-qEC" id="KGM-QE-R4h"/>
                         <outlet property="tableView" destination="v65-cQ-h7G" id="TJH-Xo-MGr"/>
+                        <outlet property="toolbar" destination="V0d-K9-Xx6" id="yyY-Ax-78v"/>
                         <segue destination="Odd-FB-afx" kind="show" identifier="showmapview" id="ao1-gd-r81"/>
                     </connections>
                 </viewController>

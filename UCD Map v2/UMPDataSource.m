@@ -115,6 +115,7 @@ NSString *const LoadDataSucceeded = @"LoadDataSucceeded";
     if (storedLocations.count && !forceWebRefresh) {
         
         // If there is, load locations from archive
+        NSLog(@"Loading locations from archive on disk.");
         NSMutableArray *mutableLocations = [storedLocations mutableCopy];
         _locations = mutableLocations;
         self.state = UMPDataSourceReady;
@@ -127,6 +128,7 @@ NSString *const LoadDataSucceeded = @"LoadDataSucceeded";
         self.state = UMPDataSourceLoadingData;
         
         // There is no archived data yet, so let's get some from web-service
+        NSLog(@"Loading locations from LD server.");
         [self populateLocationsDataWithCompletionHandler:^(NSError *error){
             
             if (error) {
