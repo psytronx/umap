@@ -75,6 +75,7 @@
 
 - (void) infoButtonTapped {
     NSLog(@"Info Button tapped.");
+    [self performSegueWithIdentifier:@"showinformation" sender:self];
 }
 
 
@@ -347,6 +348,8 @@
         // Pass any objects to the view controller here, like...
         mapViewController.locations = self.checkedLocations;
         
+    }else if ([[segue identifier] isEqualToString:@"showinformation"]){
+        NSLog(@"Going to information view");
     }else {
         NSLog(@"Error going to map view");
     }

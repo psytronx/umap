@@ -23,6 +23,8 @@
 		52670BDE1B7554450015BF20 /* orange-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 52670BDD1B7554450015BF20 /* orange-map-marker.png */; };
 		52670BFF1B771E6E0015BF20 /* checkbox_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 52670BFD1B771E6E0015BF20 /* checkbox_empty.png */; };
 		52670C021B771F530015BF20 /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 52670C011B771F530015BF20 /* checkbox_checked.png */; };
+		52670C051B7746CA0015BF20 /* InformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52670C041B7746CA0015BF20 /* InformationViewController.m */; };
+		52670C071B7748D90015BF20 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52670C061B7748D90015BF20 /* MessageUI.framework */; };
 		528C89801B6EED630072BFF8 /* app-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 528C897F1B6EED630072BFF8 /* app-settings.plist */; };
 		528C89831B70071C0072BFF8 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 528C89821B70071C0072BFF8 /* MapViewController.m */; };
 		528C89851B7010DA0072BFF8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528C89841B7010DA0072BFF8 /* MapKit.framework */; };
@@ -69,6 +71,9 @@
 		52670BDD1B7554450015BF20 /* orange-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-map-marker.png"; sourceTree = "<group>"; };
 		52670BFD1B771E6E0015BF20 /* checkbox_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_empty.png; sourceTree = "<group>"; };
 		52670C011B771F530015BF20 /* checkbox_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked.png; sourceTree = "<group>"; };
+		52670C031B7746CA0015BF20 /* InformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InformationViewController.h; sourceTree = "<group>"; };
+		52670C041B7746CA0015BF20 /* InformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InformationViewController.m; sourceTree = "<group>"; };
+		52670C061B7748D90015BF20 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		528C897F1B6EED630072BFF8 /* app-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "app-settings.plist"; sourceTree = "<group>"; };
 		528C89811B70071C0072BFF8 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		528C89821B70071C0072BFF8 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
@@ -86,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52670C071B7748D90015BF20 /* MessageUI.framework in Frameworks */,
 				529C49181B70722F00295EB0 /* CoreLocation.framework in Frameworks */,
 				528C89851B7010DA0072BFF8 /* MapKit.framework in Frameworks */,
 				5AA01ED06E25FD8DFB1564A3 /* libPods.a in Frameworks */,
@@ -105,6 +111,7 @@
 		424F99EA0C943528483B2B51 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52670C061B7748D90015BF20 /* MessageUI.framework */,
 				529C49171B70722F00295EB0 /* CoreLocation.framework */,
 				528C89841B7010DA0072BFF8 /* MapKit.framework */,
 				5AFD3EE4182B0790C527F0CB /* libPods.a */,
@@ -153,6 +160,8 @@
 				5252DB2B1B6D847600262619 /* LaunchViewController.m */,
 				5252DB4B1B6EC80300262619 /* LocationsViewController.h */,
 				5252DB4C1B6EC80300262619 /* LocationsViewController.m */,
+				52670C031B7746CA0015BF20 /* InformationViewController.h */,
+				52670C041B7746CA0015BF20 /* InformationViewController.m */,
 				528C89811B70071C0072BFF8 /* MapViewController.h */,
 				528C89821B70071C0072BFF8 /* MapViewController.m */,
 				5252DB2D1B6D847600262619 /* Main.storyboard */,
@@ -366,6 +375,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52670C051B7746CA0015BF20 /* InformationViewController.m in Sources */,
 				5252DB2C1B6D847600262619 /* LaunchViewController.m in Sources */,
 				5252DB541B6ED6EF00262619 /* UMPDataSource.m in Sources */,
 				5252DB291B6D847600262619 /* AppDelegate.m in Sources */,
