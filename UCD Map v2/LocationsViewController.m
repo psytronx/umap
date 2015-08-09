@@ -144,10 +144,10 @@
     
     // Setup checkbox
     if ([self.checkedLocations containsObject:location]) {
-        cell.imageView.image = [UIImage imageNamed:@"checked.png"];
+        cell.imageView.image = [UIImage imageNamed:@"checkbox_checked.png"];
     }
     else {
-        cell.imageView.image = [UIImage imageNamed:@"unchecked.png"];
+        cell.imageView.image = [UIImage imageNamed:@"checkbox_empty.png"];
     }
     CGRect frame = cell.imageView.frame;
     frame.size.width = 20;
