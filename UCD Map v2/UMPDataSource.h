@@ -28,6 +28,9 @@ typedef NS_ENUM(NSInteger, UMPDataSourceState){
 @property (nonatomic, strong, readonly) NSArray *locations; // Locations data
 @property (nonatomic, strong, readonly) UMPCampus *campus; // Campus data. After init, stays constant
 @property (nonatomic) UMPDataSourceState state; // Track state of data source. Is it usable yet?
+@property (nonatomic, strong) NSDate *lastDataRefresh; // Last time data on app was refreshed
+@property (nonatomic, strong) NSDate *lastDataRefreshCheck; // Last time app checked server if data changed
+@property (nonatomic, strong) NSDate *lastServerDataChanged; // Most recent change of data on the server, to the best of app's knowledge
 
 + (instancetype) sharedInstance;
 
