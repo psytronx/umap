@@ -86,6 +86,7 @@
     // Get filtered and sorted array of locations
     NSArray *locations = [UMPDataSource sharedInstance].locations;
     if ([searchString length] > 0){
+        searchString = [searchString stringByReplacingOccurrencesOfString: @"\\" withString:@"\\\\"]; // Need to escape '\', otherwise crashes
         NSPredicate *sPredicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"name contains[c] '%@'", searchString]];
         locations = [locations filteredArrayUsingPredicate:sPredicate];
     }
