@@ -7,39 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4541661C601A2673C86DABCE /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FDE045482913B544B352B1C /* libPods.a */; };
+		5237850E1B754CD800BBED5A /* UMPAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5237850D1B754CD800BBED5A /* UMPAnnotation.m */; };
 		5252DB261B6D847600262619 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB251B6D847600262619 /* main.m */; };
 		5252DB291B6D847600262619 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB281B6D847600262619 /* AppDelegate.m */; };
 		5252DB2C1B6D847600262619 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB2B1B6D847600262619 /* LaunchViewController.m */; };
 		5252DB2F1B6D847600262619 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB2D1B6D847600262619 /* Main.storyboard */; };
 		5252DB311B6D847600262619 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB301B6D847600262619 /* Images.xcassets */; };
 		5252DB341B6D847600262619 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB321B6D847600262619 /* LaunchScreen.xib */; };
-		5252DB401B6D847600262619 /* UCD_Map_v2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */; };
 		5252DB4A1B6D84CD00262619 /* logo_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5252DB491B6D84CD00262619 /* logo_background.png */; };
 		5252DB4D1B6EC80300262619 /* LocationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB4C1B6EC80300262619 /* LocationsViewController.m */; };
 		5252DB511B6ED4ED00262619 /* UMPLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB501B6ED4ED00262619 /* UMPLocation.m */; };
 		5252DB541B6ED6EF00262619 /* UMPDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB531B6ED6EF00262619 /* UMPDataSource.m */; };
 		5252DB571B6ED91200262619 /* UMPCampus.m in Sources */ = {isa = PBXBuildFile; fileRef = 5252DB561B6ED91200262619 /* UMPCampus.m */; };
+		52670BDE1B7554450015BF20 /* orange-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 52670BDD1B7554450015BF20 /* orange-map-marker.png */; };
+		52670BFF1B771E6E0015BF20 /* checkbox_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 52670BFD1B771E6E0015BF20 /* checkbox_empty.png */; };
+		52670C021B771F530015BF20 /* checkbox_checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 52670C011B771F530015BF20 /* checkbox_checked.png */; };
+		52670C051B7746CA0015BF20 /* InformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52670C041B7746CA0015BF20 /* InformationViewController.m */; };
+		52670C071B7748D90015BF20 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52670C061B7748D90015BF20 /* MessageUI.framework */; };
 		528C89801B6EED630072BFF8 /* app-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 528C897F1B6EED630072BFF8 /* app-settings.plist */; };
 		528C89831B70071C0072BFF8 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 528C89821B70071C0072BFF8 /* MapViewController.m */; };
 		528C89851B7010DA0072BFF8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528C89841B7010DA0072BFF8 /* MapKit.framework */; };
 		529C49181B70722F00295EB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 529C49171B70722F00295EB0 /* CoreLocation.framework */; };
-		529C491F1B717ABD00295EB0 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 529C491D1B717ABD00295EB0 /* checked.png */; };
-		529C49221B717B0600295EB0 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 529C49211B717B0600295EB0 /* unchecked.png */; };
-		5AA01ED06E25FD8DFB1564A3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AFD3EE4182B0790C527F0CB /* libPods.a */; };
+		529C49261B746E5400295EB0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 529C49251B746E5400295EB0 /* Reachability.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5252DB3A1B6D847600262619 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5252DB181B6D847600262619 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5252DB1F1B6D847600262619;
-			remoteInfo = "UCD Map v2";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		5252DB201B6D847600262619 /* UCD Map v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UCD Map v2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FDE045482913B544B352B1C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DA4B29B71EEE1714F564BBE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		5237850C1B754CD800BBED5A /* UMPAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPAnnotation.h; sourceTree = "<group>"; };
+		5237850D1B754CD800BBED5A /* UMPAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPAnnotation.m; sourceTree = "<group>"; };
+		5252DB201B6D847600262619 /* UCD Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UCD Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5252DB241B6D847600262619 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5252DB251B6D847600262619 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5252DB271B6D847600262619 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -49,9 +47,6 @@
 		5252DB2E1B6D847600262619 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5252DB301B6D847600262619 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5252DB331B6D847600262619 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5252DB391B6D847600262619 /* UCD Map v2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UCD Map v2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5252DB3E1B6D847600262619 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UCD_Map_v2Tests.m; sourceTree = "<group>"; };
 		5252DB491B6D84CD00262619 /* logo_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_background.png; sourceTree = "<group>"; };
 		5252DB4B1B6EC80300262619 /* LocationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsViewController.h; sourceTree = "<group>"; };
 		5252DB4C1B6EC80300262619 /* LocationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsViewController.m; sourceTree = "<group>"; };
@@ -61,16 +56,20 @@
 		5252DB531B6ED6EF00262619 /* UMPDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPDataSource.m; sourceTree = "<group>"; };
 		5252DB551B6ED91200262619 /* UMPCampus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMPCampus.h; sourceTree = "<group>"; };
 		5252DB561B6ED91200262619 /* UMPCampus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMPCampus.m; sourceTree = "<group>"; };
+		52670BDD1B7554450015BF20 /* orange-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-map-marker.png"; sourceTree = "<group>"; };
+		52670BFD1B771E6E0015BF20 /* checkbox_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_empty.png; sourceTree = "<group>"; };
+		52670C011B771F530015BF20 /* checkbox_checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_checked.png; sourceTree = "<group>"; };
+		52670C031B7746CA0015BF20 /* InformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InformationViewController.h; sourceTree = "<group>"; };
+		52670C041B7746CA0015BF20 /* InformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InformationViewController.m; sourceTree = "<group>"; };
+		52670C061B7748D90015BF20 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		528C897F1B6EED630072BFF8 /* app-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "app-settings.plist"; sourceTree = "<group>"; };
 		528C89811B70071C0072BFF8 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		528C89821B70071C0072BFF8 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		528C89841B7010DA0072BFF8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		529C49171B70722F00295EB0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		529C491D1B717ABD00295EB0 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
-		529C49211B717B0600295EB0 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
-		5AFD3EE4182B0790C527F0CB /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C2D56993AC4595A0B4D090D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		B432C51F30BD74B7E9CA749E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		529C49241B746E5400295EB0 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		529C49251B746E5400295EB0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		E91FDCBBD8E51983DED39574 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,72 +77,89 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52670C071B7748D90015BF20 /* MessageUI.framework in Frameworks */,
 				529C49181B70722F00295EB0 /* CoreLocation.framework in Frameworks */,
 				528C89851B7010DA0072BFF8 /* MapKit.framework in Frameworks */,
-				5AA01ED06E25FD8DFB1564A3 /* libPods.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5252DB361B6D847600262619 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				4541661C601A2673C86DABCE /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0775731D462AFC9272CF372A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1DA4B29B71EEE1714F564BBE /* Pods.debug.xcconfig */,
+				E91FDCBBD8E51983DED39574 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		424F99EA0C943528483B2B51 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52670C061B7748D90015BF20 /* MessageUI.framework */,
 				529C49171B70722F00295EB0 /* CoreLocation.framework */,
 				528C89841B7010DA0072BFF8 /* MapKit.framework */,
-				5AFD3EE4182B0790C527F0CB /* libPods.a */,
+				0FDE045482913B544B352B1C /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5237850B1B754CA600BBED5A /* Map Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				5237850C1B754CD800BBED5A /* UMPAnnotation.h */,
+				5237850D1B754CD800BBED5A /* UMPAnnotation.m */,
+			);
+			name = "Map Annotation";
 			sourceTree = "<group>";
 		};
 		5252DB171B6D847600262619 = {
 			isa = PBXGroup;
 			children = (
-				5252DB221B6D847600262619 /* UCD Map v2 */,
-				5252DB3C1B6D847600262619 /* UCD Map v2Tests */,
+				5252DB221B6D847600262619 /* University Map App */,
 				5252DB211B6D847600262619 /* Products */,
-				697FE387DF3B2B85BBCF058E /* Pods */,
 				424F99EA0C943528483B2B51 /* Frameworks */,
+				0775731D462AFC9272CF372A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
 		5252DB211B6D847600262619 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5252DB201B6D847600262619 /* UCD Map v2.app */,
-				5252DB391B6D847600262619 /* UCD Map v2Tests.xctest */,
+				5252DB201B6D847600262619 /* UCD Map.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5252DB221B6D847600262619 /* UCD Map v2 */ = {
+		5252DB221B6D847600262619 /* University Map App */ = {
 			isa = PBXGroup;
 			children = (
 				5252DB4E1B6ED4D400262619 /* Model */,
+				529C49231B746E4100295EB0 /* Reachability */,
+				5237850B1B754CA600BBED5A /* Map Annotation */,
 				5252DB271B6D847600262619 /* AppDelegate.h */,
 				5252DB281B6D847600262619 /* AppDelegate.m */,
 				5252DB2A1B6D847600262619 /* LaunchViewController.h */,
 				5252DB2B1B6D847600262619 /* LaunchViewController.m */,
 				5252DB4B1B6EC80300262619 /* LocationsViewController.h */,
 				5252DB4C1B6EC80300262619 /* LocationsViewController.m */,
+				52670C031B7746CA0015BF20 /* InformationViewController.h */,
+				52670C041B7746CA0015BF20 /* InformationViewController.m */,
 				528C89811B70071C0072BFF8 /* MapViewController.h */,
 				528C89821B70071C0072BFF8 /* MapViewController.m */,
 				5252DB2D1B6D847600262619 /* Main.storyboard */,
 				5252DB301B6D847600262619 /* Images.xcassets */,
 				5252DB491B6D84CD00262619 /* logo_background.png */,
-				529C491D1B717ABD00295EB0 /* checked.png */,
-				529C49211B717B0600295EB0 /* unchecked.png */,
+				52670BFD1B771E6E0015BF20 /* checkbox_empty.png */,
+				52670C011B771F530015BF20 /* checkbox_checked.png */,
+				52670BDD1B7554450015BF20 /* orange-map-marker.png */,
 				5252DB321B6D847600262619 /* LaunchScreen.xib */,
 				5252DB231B6D847600262619 /* Supporting Files */,
 			);
+			name = "University Map App";
 			path = "UCD Map v2";
 			sourceTree = "<group>";
 		};
@@ -153,23 +169,6 @@
 				5252DB241B6D847600262619 /* Info.plist */,
 				528C897F1B6EED630072BFF8 /* app-settings.plist */,
 				5252DB251B6D847600262619 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5252DB3C1B6D847600262619 /* UCD Map v2Tests */ = {
-			isa = PBXGroup;
-			children = (
-				5252DB3F1B6D847600262619 /* UCD_Map_v2Tests.m */,
-				5252DB3D1B6D847600262619 /* Supporting Files */,
-			);
-			path = "UCD Map v2Tests";
-			sourceTree = "<group>";
-		};
-		5252DB3D1B6D847600262619 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				5252DB3E1B6D847600262619 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -187,54 +186,36 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		697FE387DF3B2B85BBCF058E /* Pods */ = {
+		529C49231B746E4100295EB0 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
-				B432C51F30BD74B7E9CA749E /* Pods.debug.xcconfig */,
-				7C2D56993AC4595A0B4D090D /* Pods.release.xcconfig */,
+				529C49241B746E5400295EB0 /* Reachability.h */,
+				529C49251B746E5400295EB0 /* Reachability.m */,
 			);
-			name = Pods;
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5252DB1F1B6D847600262619 /* UCD Map v2 */ = {
+		5252DB1F1B6D847600262619 /* UCD Map */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5252DB431B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map v2" */;
+			buildConfigurationList = 5252DB431B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map" */;
 			buildPhases = (
-				630EF06040C71ACA7B2382C6 /* Check Pods Manifest.lock */,
+				5C6C52B3DB9CBDDFC26ED27A /* Check Pods Manifest.lock */,
 				5252DB1C1B6D847600262619 /* Sources */,
 				5252DB1D1B6D847600262619 /* Frameworks */,
 				5252DB1E1B6D847600262619 /* Resources */,
-				0EB938F4DC217607B29926C9 /* Copy Pods Resources */,
+				CD80B84484D047CE72FA2F7E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "UCD Map v2";
+			name = "UCD Map";
 			productName = "UCD Map v2";
-			productReference = 5252DB201B6D847600262619 /* UCD Map v2.app */;
+			productReference = 5252DB201B6D847600262619 /* UCD Map.app */;
 			productType = "com.apple.product-type.application";
-		};
-		5252DB381B6D847600262619 /* UCD Map v2Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5252DB461B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map v2Tests" */;
-			buildPhases = (
-				5252DB351B6D847600262619 /* Sources */,
-				5252DB361B6D847600262619 /* Frameworks */,
-				5252DB371B6D847600262619 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5252DB3B1B6D847600262619 /* PBXTargetDependency */,
-			);
-			name = "UCD Map v2Tests";
-			productName = "UCD Map v2Tests";
-			productReference = 5252DB391B6D847600262619 /* UCD Map v2Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -248,13 +229,9 @@
 					5252DB1F1B6D847600262619 = {
 						CreatedOnToolsVersion = 6.4;
 					};
-					5252DB381B6D847600262619 = {
-						CreatedOnToolsVersion = 6.4;
-						TestTargetID = 5252DB1F1B6D847600262619;
-					};
 				};
 			};
-			buildConfigurationList = 5252DB1B1B6D847600262619 /* Build configuration list for PBXProject "UCD Map v2" */;
+			buildConfigurationList = 5252DB1B1B6D847600262619 /* Build configuration list for PBXProject "UCD Map" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -267,8 +244,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5252DB1F1B6D847600262619 /* UCD Map v2 */,
-				5252DB381B6D847600262619 /* UCD Map v2Tests */,
+				5252DB1F1B6D847600262619 /* UCD Map */,
 			);
 		};
 /* End PBXProject section */
@@ -278,42 +254,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				529C491F1B717ABD00295EB0 /* checked.png in Resources */,
 				5252DB2F1B6D847600262619 /* Main.storyboard in Resources */,
 				5252DB341B6D847600262619 /* LaunchScreen.xib in Resources */,
 				5252DB4A1B6D84CD00262619 /* logo_background.png in Resources */,
+				52670BDE1B7554450015BF20 /* orange-map-marker.png in Resources */,
+				52670C021B771F530015BF20 /* checkbox_checked.png in Resources */,
+				52670BFF1B771E6E0015BF20 /* checkbox_empty.png in Resources */,
 				5252DB311B6D847600262619 /* Images.xcassets in Resources */,
-				529C49221B717B0600295EB0 /* unchecked.png in Resources */,
 				528C89801B6EED630072BFF8 /* app-settings.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5252DB371B6D847600262619 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0EB938F4DC217607B29926C9 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		630EF06040C71ACA7B2382C6 /* Check Pods Manifest.lock */ = {
+		5C6C52B3DB9CBDDFC26ED27A /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -328,6 +283,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		CD80B84484D047CE72FA2F7E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -335,34 +305,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52670C051B7746CA0015BF20 /* InformationViewController.m in Sources */,
 				5252DB2C1B6D847600262619 /* LaunchViewController.m in Sources */,
 				5252DB541B6ED6EF00262619 /* UMPDataSource.m in Sources */,
 				5252DB291B6D847600262619 /* AppDelegate.m in Sources */,
 				528C89831B70071C0072BFF8 /* MapViewController.m in Sources */,
 				5252DB571B6ED91200262619 /* UMPCampus.m in Sources */,
+				5237850E1B754CD800BBED5A /* UMPAnnotation.m in Sources */,
 				5252DB511B6ED4ED00262619 /* UMPLocation.m in Sources */,
 				5252DB261B6D847600262619 /* main.m in Sources */,
+				529C49261B746E5400295EB0 /* Reachability.m in Sources */,
 				5252DB4D1B6EC80300262619 /* LocationsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5252DB351B6D847600262619 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5252DB401B6D847600262619 /* UCD_Map_v2Tests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5252DB3B1B6D847600262619 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5252DB1F1B6D847600262619 /* UCD Map v2 */;
-			targetProxy = 5252DB3A1B6D847600262619 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5252DB2D1B6D847600262619 /* Main.storyboard */ = {
@@ -468,64 +425,32 @@
 		};
 		5252DB441B6D847600262619 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B432C51F30BD74B7E9CA749E /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 1DA4B29B71EEE1714F564BBE /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "UCD Map v2/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "UCD Map";
 			};
 			name = Debug;
 		};
 		5252DB451B6D847600262619 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7C2D56993AC4595A0B4D090D /* Pods.release.xcconfig */;
+			baseConfigurationReference = E91FDCBBD8E51983DED39574 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "UCD Map v2/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		5252DB471B6D847600262619 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "UCD Map v2Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UCD Map v2.app/UCD Map v2";
-			};
-			name = Debug;
-		};
-		5252DB481B6D847600262619 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "UCD Map v2Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UCD Map v2.app/UCD Map v2";
+				PRODUCT_NAME = "UCD Map";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5252DB1B1B6D847600262619 /* Build configuration list for PBXProject "UCD Map v2" */ = {
+		5252DB1B1B6D847600262619 /* Build configuration list for PBXProject "UCD Map" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5252DB411B6D847600262619 /* Debug */,
@@ -534,20 +459,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5252DB431B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map v2" */ = {
+		5252DB431B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5252DB441B6D847600262619 /* Debug */,
 				5252DB451B6D847600262619 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5252DB461B6D847600262619 /* Build configuration list for PBXNativeTarget "UCD Map v2Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5252DB471B6D847600262619 /* Debug */,
-				5252DB481B6D847600262619 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
