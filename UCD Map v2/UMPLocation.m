@@ -15,6 +15,7 @@
     if (self) {
         self.id = [((NSString*)mediaDictionary[@"id"]) integerValue];
         self.name = mediaDictionary[@"name"];
+        self.name = [self.name stringByReplacingOccurrencesOfString: @"&amp;" withString:@"&"];
         self.category = mediaDictionary[@"category"];
         self.latitude = [((NSString*)mediaDictionary[@"latitude"]) doubleValue];
         self.longitude = [((NSString*)mediaDictionary[@"longitude"]) doubleValue];
@@ -41,11 +42,12 @@
 {
     self = [super init];
     if (self) {
-        _id = [aDecoder decodeIntegerForKey:@"id"];
-        _name = [aDecoder decodeObjectForKey:@"name"];
-        _category = [aDecoder decodeObjectForKey:@"category"];
-        _latitude = [aDecoder decodeDoubleForKey:@"latitude"];
-        _longitude = [aDecoder decodeDoubleForKey:@"longitude"];
+        self.id = [aDecoder decodeIntegerForKey:@"id"];
+        self.name = [aDecoder decodeObjectForKey:@"name"];
+        self.name = [self.name stringByReplacingOccurrencesOfString: @"&amp;" withString:@"&"];
+        self.category = [aDecoder decodeObjectForKey:@"category"];
+        self.latitude = [aDecoder decodeDoubleForKey:@"latitude"];
+        self.longitude = [aDecoder decodeDoubleForKey:@"longitude"];
     }
     return self;
 }
