@@ -115,7 +115,7 @@
     // Now, wait for response. Notification observers setup in ViewDidLoad will trigger upon completion.
     
     // Also, trigger time delay, so that user is forced to stare at our beautiful LD logo for at least a second
-    double delayInSeconds = 1.0;
+    double delayInSeconds = 1.3;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         _timeDelayPassed = YES;
