@@ -7,9 +7,12 @@
 //
 
 #import "MapViewController.h"
+#import "UMPDataSource.h"
 #import "UMPLocation.h"
+#import "UMPCampus.h"
 #import "UMPAnnotation.h"
 #import "Reachability.h"
+#import <Google/Analytics.h>
 
 // Global variable, to persist chosen map type
 NSInteger ChosenMapType = MKMapTypeHybrid;
@@ -66,7 +69,13 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    self.mapView.mapType = ChosenMapType;
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+    
+    // Setup segmented control
+    self.mapView.mapType = ChosenMapType; // Restore saved state
     switch (ChosenMapType) {
         case MKMapTypeHybrid:
             self.mapTypeSegmentedControl.selectedSegmentIndex = 0;
@@ -231,15 +240,31 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
     self.selectedLocation = ((UMPAnnotation *)view.annotation).location;
     NSLog(@"Annotation pressed. location: %@", self.selectedLocation.name);
     
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                          action:@"map-annotation-callout-opened"
+                                                           label:self.selectedLocation.name
+                                                           value:nil] build]];
+    
     // iOS 8+
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:self.selectedLocation.name
                                                                    message:nil
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
+        
         UIAlertAction* googleMapsAction = [UIAlertAction actionWithTitle:@"Directions in Google Maps" style:UIAlertActionStyleDefault
-                                                               handler:^(UIAlertAction * action) {\
+                                                               handler:^(UIAlertAction * action) {
                                                                    NSLog(@"Directions in Google Maps");
+                                                                   
+                                                                   // GA
+                                                                   id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+                                                                   [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                                                                                         action:@"googlemaps-directions-touched"
+                                                                                                                          label:self.selectedLocation.name
+                                                                                                                          value:nil] build]];
+                                                                   
                                                                    NSString *saddr = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
                                                                    NSString *daddr = [NSString stringWithFormat:@"%f,%f", self.selectedLocation.latitude, self.selectedLocation.longitude];
                                                                    NSString *url_full = [NSString stringWithFormat:@"comgooglemaps://?saddr=%@&daddr=%@", saddr, daddr];
@@ -254,6 +279,14 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
     
     UIAlertAction* appleMapsAction = [UIAlertAction actionWithTitle:@"Directions in Apple Maps" style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction * action) {
+                                                                 
+                                                                 // GA
+                                                                 id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+                                                                 [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                                                                                       action:@"applemaps-directions-touched"
+                                                                                                                        label:self.selectedLocation.name
+                                                                                                                        value:nil] build]];
+                                                                 
                                                                  // Create an MKMapItem to pass to the Maps app
                                                                  CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.selectedLocation.latitude, self.selectedLocation.longitude);
                                                                  MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];

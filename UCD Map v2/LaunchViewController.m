@@ -9,6 +9,7 @@
 #import "LaunchViewController.h"
 #import "UMPDataSource.h"
 #import "Reachability.h"
+#import <Google/Analytics.h>
 
 @interface LaunchViewController (){
     BOOL _timeDelayPassed;
@@ -46,6 +47,13 @@
     
     [self stepTestForReachability];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void)didReceiveMemoryWarning {

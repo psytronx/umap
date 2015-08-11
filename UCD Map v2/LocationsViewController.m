@@ -12,6 +12,7 @@
 #import "UMPCampus.h"
 #import "UMPLocation.h"
 #import "Reachability.h"
+#import <Google/Analytics.h>
 
 @interface LocationsViewController ()
 @property (nonatomic, strong) NSDictionary *sections;
@@ -59,6 +60,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
     
     // Deselect previously selected row 
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
@@ -190,9 +196,25 @@
     UMPLocation *location = self.sections[sectionName][rowNum];
     
     if ([self.checkedLocations containsObject:location]) {
+        
+        // GA
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                              action:@"location-unchecked-by-touch"
+                                                               label:location.name
+                                                               value:nil] build]];
+        
         [self.checkedLocations removeObject:location];
     }
     else {
+        
+        // GA
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                              action:@"location-checked-by-touch"
+                                                               label:location.name
+                                                               value:nil] build]];
+        
         [self.checkedLocations addObject:location];
     }
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:tappedIndexPath] withRowAnimation: UITableViewRowAnimationFade];
@@ -226,31 +248,32 @@
     NSString *sectionName = self.sortedSectionsArray[section];
     UMPLocation *location = self.sections[sectionName][row];
     if (location){
+        
+        // GA
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                              action:@"location-row-touched"
+                                                               label:location.name
+                                                               value:nil] build]];
+        
         [self performSegueWithIdentifier:@"showmapview" sender:@[location]];
     }
     
 }
-
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    //Convenience variables
-    NSInteger section = [indexPath section];
-    NSInteger row = [indexPath row];
-    
-    // Go to map view
-    NSString *sectionName = self.sortedSectionsArray[section];
-    UMPLocation *location = self.sections[sectionName][row];
-    if (location){
-        [self performSegueWithIdentifier:@"showmapview" sender:@[location]];
-    }
-}
-
 
 // ===========================================================================================
 #pragma mark - UISearchBarDelegate Methods
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     NSLog(@"about to start editing");
+    
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                          action:@"search-bar-entered"
+                                                           label:nil
+                                                           value:nil] build]];
+    
     [self.searchBar setShowsCancelButton:YES animated:YES];
     return YES;
 }
@@ -292,6 +315,13 @@
 
 - (IBAction)selectAllButtonClicked:(UIBarButtonItem *)sender {
     
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                          action:@"select-all-touched"
+                                                           label:nil
+                                                           value:nil] build]];
+    
     self.checkedLocations = [[UMPDataSource sharedInstance].locations mutableCopy];
 //    self.checkedLocations = [[NSMutableArray alloc] init];
 //    for (UMPLocation *location in [UMPDataSource sharedInstance]) {
@@ -302,6 +332,13 @@
 }
 
 - (IBAction)deselectAllButtonClicked:(UIBarButtonItem *)sender {
+    
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                          action:@"deselect-all-touched"
+                                                           label:nil
+                                                           value:nil] build]];
     
     self.checkedLocations = [[NSMutableArray alloc] init];
     [self.tableView reloadData];
@@ -342,6 +379,13 @@
         mapViewController.locations = sender;
         
     }else if ([[segue identifier] isEqualToString:@"showmapview-selected-locations"]){
+        
+        // GA
+        id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                              action:@"map-bar-button-touched"
+                                                               label:nil
+                                                               value:nil] build]];
         
         // Get reference to the destination view controller
         MapViewController *mapViewController = [segue destinationViewController];

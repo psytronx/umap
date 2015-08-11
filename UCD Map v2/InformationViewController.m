@@ -7,7 +7,10 @@
 //
 
 #import "InformationViewController.h"
+#import "UMPDataSource.h"
+#import "UMPCampus.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import <Google/Analytics.h>
 
 @interface InformationViewController ()
 
@@ -25,7 +28,22 @@
     [self.emailLabel addGestureRecognizer:tapGesture];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:self.title];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+}
+
 - (void)didTapLabelWithGesture:(UITapGestureRecognizer *)tapGesture {
+    
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                          action:@"ld-info-email-touched"
+                                                           label:nil
+                                                           value:nil] build]];
+    
     // Email info@logicaldimension.com
     //email subject
     NSString * subject = @"Feedback";
