@@ -317,8 +317,8 @@
         if ([self.checkedLocations count] > 0) {
             return YES;
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No locations selected"
-                                                            message:@"Please select locations using the checkboxes on the left-hand side. Or, you can click on a location's row to view it on the map directly."
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Locations Selected"
+                                                            message:@"Please select locations using the checkboxes on the left-hand side. Or, you can view a location on the map directly by tapping it's row."
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
