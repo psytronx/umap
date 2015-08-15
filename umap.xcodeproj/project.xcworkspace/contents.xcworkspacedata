@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:UCD Map v2.xcodeproj">
+      location = "self:/Users/psytronx/LD/umap/umap.xcodeproj">
    </FileRef>
 </Workspace>
