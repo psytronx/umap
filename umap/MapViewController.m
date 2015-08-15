@@ -302,6 +302,30 @@ NSInteger ChosenMapType = MKMapTypeHybrid;
                                                                  [MKMapItem openMapsWithItems:@[source, destination] launchOptions:launchOptions];
                                                              }];
     [alert addAction:appleMapsAction];
+    
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]]) {
+        UIAlertAction* uberPickupAction = [UIAlertAction actionWithTitle:@"Request Ride with Uber" style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * action) {
+                                                                     
+                                                                     // GA
+                                                                     id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+                                                                     [tracker send:[[GAIDictionaryBuilder createEventWithCategory:[UMPDataSource sharedInstance].campus.campusCode
+                                                                                                                           action:@"uber-request-touched"
+                                                                                                                            label:self.selectedLocation.name
+                                                                                                                            value:nil] build]];
+                                                                     //                                                                     NSString *pickup = [NSString stringWithFormat:@"%f,%f", self.userCLLocation.coordinate.latitude, self.userCLLocation.coordinate.longitude];
+                                                                     NSString *escapedLocationName = [self.selectedLocation.name stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+                                                                     NSString *dropoff = [NSString stringWithFormat:@"&dropoff[latitude]=%f&dropoff[longitude]=%f&dropoff[nickname]=%@", self.selectedLocation.latitude, self.selectedLocation.longitude, escapedLocationName];
+                                                                     NSString *url_full = [NSString stringWithFormat:@"uber://?action=setPickup&pickup=my_location%@", dropoff];
+                                                                     
+                                                                     // form complete url
+                                                                     NSURL *url = [NSURL URLWithString:url_full];
+                                                                     // call gMap
+                                                                     [[UIApplication sharedApplication] openURL:url];
+                                                                 }];
+        [alert addAction:uberPickupAction];
+        
+    }
 
     UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
                                                           handler:^(UIAlertAction * action) {}];
