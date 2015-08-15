@@ -1,7 +1,13 @@
 # umap
 University Map app, rewritten for iOS 8+ compatibility
 
-##Steps for deploying to App Store for a school:
+##Setting up development environment
+
+1. Get Cocoa Pods on your system. Cocoa Pods is the premier package manager for XCode development.
+2. Clone the repo into your disk. Go into the project's folder.
+3. Run 'pod install'. After that's done, from now on, use the workspace file generated to open the project in XCode.
+
+##Steps for deploying to App Store for a school (more detailed instructions will be fleshed out later):
 
 1. Make sure App Id and distribution profile exists for that school. Make sure the distribution profile is active.
 2. Add app to our Google Analytics account, via https://developers.google.com/mobile/add?platform=ios. Use the Analytics Property "University Map".
@@ -20,3 +26,7 @@ University Map app, rewritten for iOS 8+ compatibility
 ##Useful web-based tools for dealing with image resizing for icons and screenshots:
 - https://launchkit.io
 - http://makeappicon.com (Gotta love that toaster action!)
+
+##Other useful tools
+https://github.com/kylef/cocoapods-deintegrate - This is a life saver when trying to rename a project that uses Cocoa Pods!
+
