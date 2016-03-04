@@ -1,6 +1,17 @@
 # umap
 University Map app, rewritten for iOS 8+ compatibility
 
+This app provides a directory for campus locations of a given university. We (Logical Dimension) released this back in 2009. After letting the application lay dormant for years, I decided to completely rewrite it so that it supports modern versions of iOS.
+
+The app works by providing a list of campus locations that the user can select and view on a map. If a user presses the disclosure indicator of a table cell, the map will apear and show that location's pin. The user can also select multiple locations and view them simultaneously on the map. If a pin is pressed, it brings up an action sheet that gives option to show directions in Apple Maps. If the user has the Google Maps or Uber app, those can be accessed as well using deep linking.
+
+Campus and location data is stored on our databases and served by a simple web API. When the app is loaded for the first time, it fetches the data (using AFNetworking) and caches it. The app checks for new data once a week and refreshes the cache if needed.
+
+Future features: 
+- Use Core Graphics instead of PNG's to render check-box icons.
+- Differentiate between different types of locations, e.g. Parking structures vs. lecture halls vs. restaurant/food.
+- Incorporate local business locations from Yelp or Google API.
+
 ##Setting up development environment
 
 1. Get Cocoa Pods on your system. Cocoa Pods is the premier package manager for XCode development.
