@@ -3,7 +3,7 @@ University Map app, rewritten for iOS 8+ compatibility
 
 This app provides a directory for campus locations of a given university. We (Logical Dimension) released this back in 2009. After letting the application lay dormant for years, I decided to completely rewrite it so that it supports modern versions of iOS.
 
-The app works by providing a list of campus locations that the user can select and view on a map. If a user presses the disclosure indicator of a table cell, the map will apear and show that location's pin. The user can also select multiple locations and view them simultaneously on the map. If a pin is pressed, it brings up an action sheet that gives option to show directions in Apple Maps. If the user has the Google Maps or Uber app, those can be accessed as well using deep linking.
+The app works by providing a list of campus locations that the user can select and view on a map. If a user selects a table cell, the map view will apear and show that location's pin. The user can also select multiple locations and view them simultaneously on the map. A pin can bring up an action sheet that allows showing directions in Apple Maps. If the user has the Google Maps or Uber app, those can be accessed as well.
 
 Campus and location data is stored on our databases and served by a simple web API. When the app is loaded for the first time, it fetches the data (using AFNetworking) and caches it. The app checks for new data once a week and refreshes the cache if needed.
 
