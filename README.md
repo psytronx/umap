@@ -7,6 +7,8 @@ The app works by providing a list of campus locations that the user can select a
 
 Campus and location data is stored on our databases and served by a simple web API. When the app is loaded for the first time, it fetches the data (using AFNetworking) and caches it. The app checks for new data once a week and refreshes the cache if needed.
 
+![](UMapInstructionsAnimated.gif)
+
 Future features: 
 - Use Core Graphics instead of PNG's to render check-box icons.
 - Differentiate between different types of locations, e.g. Parking structures vs. lecture halls vs. restaurant/food.
