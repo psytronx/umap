@@ -11,6 +11,7 @@ Campus and location data is stored on our databases and served by a simple web A
 
 Future features: 
 - Use Core Graphics instead of PNG's to render check-box icons.
+- Migrate the backend API from PHP to Node, and support HTTPS.
 - Differentiate between different types of locations, e.g. Parking structures vs. lecture halls vs. restaurant/food.
 - Incorporate local business locations from Yelp or Google API.
 
